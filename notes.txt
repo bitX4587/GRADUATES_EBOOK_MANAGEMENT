@@ -1,0 +1,19 @@
+// Lacking functions for user experience
+
+@react-oauth/google // For verifications to other gmail accounts.
+
+----- "As of now where sending an email to my personal gmail account using the email and app password."
+
+JSON Web Token // Encryption states
+
+----- "As of now where using session-based tokens to integrate user's authentication across multiple requests."
+
+
+MONGO_URL = mongodb+srv://mark:1xuxPbG8gh.Jib60B@cluster0.gyz8g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+MONGO_URL = mongodb://127.0.0.1:27017/user_management_system
+
+NEED TO DEBUG
+// CONECTION GENERATED IS THE SAME FOR EVERY user
+[0] User 67f91a6b1618820d0c427c55 connected with socket Cu8Tih8MDxguApybAAAB
+
+how about i want to have a unique socketid and chatroom whenever the userId clicks a user from the dashboard it will be creating a unique socketid and chatroom for 1 - 1 DM and when go back it will be disconnected because i dont want to see the messsage of user1 in user2
