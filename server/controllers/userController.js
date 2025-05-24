@@ -589,8 +589,8 @@ export const verifyLogin = async (req, res) => {
     // 🍪 Set JWT cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // set to true in production with HTTPS
-      sameSite: "Lax",
+      secure: process.env.NODE_ENV === "production", // true in production for HTTPS
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // none for cross-site cookies
       maxAge: 3600000, // 1 hour
     });
 
@@ -645,9 +645,9 @@ export const verifyAdminLogin = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "Lax",
-      maxAge: 3600000,
+      secure: process.env.NODE_ENV === "production", // true in production for HTTPS
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // none for cross-site cookies
+      maxAge: 3600000, // 1 hour
     });
 
     res.status(200).json({
@@ -743,8 +743,8 @@ export const userLogout = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,
-      sameSite: "Lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     }); // Clear JWT cookie
     res.status(200).json({ message: "Successfully logged out" });
   } catch (error) {
