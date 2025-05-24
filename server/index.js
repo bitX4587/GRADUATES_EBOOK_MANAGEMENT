@@ -27,6 +27,20 @@ app.use(
 // API routes
 app.use("/api", route);
 
+import https from "https";
+
+https
+  .get("https://api.ipify.org?format=json", (res) => {
+    let data = "";
+    res.on("data", (chunk) => (data += chunk));
+    res.on("end", () => {
+      console.log("Current public IP:", JSON.parse(data).ip);
+    });
+  })
+  .on("error", (err) => {
+    console.error("Error fetching IP:", err);
+  });
+
 // MongoDB connection
 const PORT = process.env.PORT || 8000;
 const MONGOURL = process.env.MONGO_URL;
