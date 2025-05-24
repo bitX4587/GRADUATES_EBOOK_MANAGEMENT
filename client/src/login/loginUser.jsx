@@ -81,6 +81,8 @@ const LoginUser = () => {
     playSegment(40, 90, true); // Idle loop
   };
 
+  console.log("API URL:", process.env.REACT_APP_API_URL);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
