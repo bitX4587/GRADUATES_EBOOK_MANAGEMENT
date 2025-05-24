@@ -1,0 +1,64 @@
+TECH STACK:
+REDIS adapter
+CLOUDINARY
+MERN STACK
+others: POSTMAN
+
+// Lacking functions for user experience
+
+@react-oauth/google // For verifications to other gmail accounts. (deployment)
+
+----- "As of now where sending an email to my personal gmail account using the email and app password."
+
+JSON Web Token // Encryption states (ongoing)
+
+----- make a public and private routes for access (admin and user)
+
+(JWT) Socket.io-redis-adapter for better socket config (deployment)
+
+----- npm install socket.io-redis ioredis
+----- REDIS_HOST=localhost
+----- REDIS_PORT=6379
+----- REDIS_PASSWORD=yourpassword  # optional
+----- const Redis = require("ioredis");
+      // 🔌 Redis adapter setup
+----- const pubClient = new Redis({
+  ----- host: process.env.REDIS_HOST,
+  ----- port: process.env.REDIS_PORT,
+  ----- password: process.env.REDIS_PASSWORD || undefined,
+----- });
+
+const subClient = pubClient.duplicate();
+io.adapter(require("socket.io-redis")({ pubClient, subClient }));
+
+(Session-based tokens) e.g: 
+const session = require("express-session");
+const RedisStore = require("connect-redis")(session);
+const redisClient = require("redis").createClient();
+
+app.use(
+  session({
+    store: new RedisStore({ client: redisClient }),
+    secret: "yourSecretKey",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: true, // Ensure cookie is sent over HTTPS
+      httpOnly: true,
+      sameSite: "Strict",
+      maxAge: 1000 * 60 * 60, // 1 hour
+    },
+  })
+);
+
+ATLAS CLOUDHOSTING: MONGO_URL = mongodb+srv://partozamark2005:8UhR31V5RYVxcPZX@graduates-ebook.6j30bsc.mongodb.net/Graduates_Ebook
+LOCALHOSTING: MONGO_URL = mongodb://127.0.0.1:27017/user_management_system
+
+// "homepage": "https://bitX4587.github.io/Graduates-Ebook",
+
+// "predeploy": "npm run build",
+// "deploy": "gh-pages -d build",
+
+mongoAtlas
+username: partozamark2005
+password: 8UhR31V5RYVxcPZX

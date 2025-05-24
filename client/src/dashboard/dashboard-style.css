@@ -1,0 +1,104 @@
+* {
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.generalDIV {
+  margin-top: 200px;
+}
+
+.newsfeedDIV {
+  border-bottom: 2px solid black;
+}
+
+textarea.form-control {
+  font-size: 1rem;
+}
+
+.message-icon i {
+  transition: transform 0.2s ease;
+}
+
+.message-icon:hover i {
+  transform: scale(2);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  transition: background 0.3s ease-in-out;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 1rem;
+  max-width: 470px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  font-family: "Segoe UI", sans-serif;
+  animation: popIn 0.3s ease-out;
+}
+
+.modal-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.modal-button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.modal-button.confirm {
+  background-color: #e63946;
+  color: white;
+}
+
+.modal-button.confirm:hover {
+  background-color: #d62828;
+}
+
+.modal-button.cancel {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.modal-button.cancel:hover {
+  background-color: #ddd;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

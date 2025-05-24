@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
+import "./resetpassword-style.css";
 
 const ResetPassword = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
 
-  // Extract token from query string
-  const queryParams = new URLSearchParams(location.search);
-  const token = queryParams.get("token");
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -19,24 +20,26 @@ const ResetPassword = () => {
   const submitForm = async (e) => {
     e.preventDefault();
 
-    if (!password) {
-      toast.error("Password is required!", { position: "top-right" });
+    if (!email || !password) {
+      toast.error("Email and password are required!", {
+        position: "top-right",
+      });
       return;
     }
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/resetpassword`,
+        "http://localhost:8000/api/resetpassword",
         {
-          token, // send token in body now
+          email,
           newPassword: password,
         }
       );
 
       toast.success(response.data.message, { position: "top-right" });
-      navigate("/");
+      navigate("/login");
     } catch (error) {
-      if (error.response && error.response.status === 400) {
+      if (error.response && error.response.data?.message) {
         toast.error(error.response.data.message, { position: "top-right" });
       } else {
         toast.error("Something went wrong!", { position: "top-right" });
@@ -45,24 +48,50 @@ const ResetPassword = () => {
   };
 
   return (
-    <form className="addUserForm" onSubmit={submitForm}>
-      <div>Reset Password</div>
-      <div className="inputGroup">
-        <label>Password:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-          autoComplete="off"
-          placeholder="Enter Your Password"
-        />
+    <div className="resetpasswordBG">
+      <div className="container d-flex justify-content-center align-items-center min-vh-100">
+        <div className="card shadow-lg p-4 modern-card">
+          <h3 className="text-center mb-4">🔐 Reset Password</h3>
+          <form className="resetPasswordUserForm" onSubmit={submitForm}>
+            <div className="mb-3">
+              <label className="form-label">📧 Email:</label>
+              <input
+                type="email"
+                className="form-control modern-input"
+                value={email}
+                onChange={handleEmailChange}
+                autoComplete="off"
+                placeholder="Enter your email"
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">🔑 New Password:</label>
+              <input
+                type="password"
+                className="form-control modern-input"
+                value={password}
+                onChange={handlePasswordChange}
+                autoComplete="off"
+                placeholder="Enter your new password"
+              />
+            </div>
+
+            <div className="d-grid">
+              <button type="submit" className="btn modern-btn">
+                Submit
+              </button>
+            </div>
+          </form>
+
+          <div className="text-center mt-3">
+            <Link to="/profile" className="text-decoration-none">
+              ← Back to Profile
+            </Link>
+          </div>
+        </div>
       </div>
-      <div className="inputGroup">
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </div>
-    </form>
+    </div>
   );
 };
 

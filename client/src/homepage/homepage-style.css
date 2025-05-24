@@ -1,0 +1,88 @@
+* {
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.homepage-container {
+  padding: 60px 0px 60px 0px;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+  z-index: 1;
+}
+
+.z-2 {
+  z-index: 2;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3); /* shadowed border */
+}
+
+.company-name {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* Optional: Dark mode */
+
+body.dark-mode,
+body.dark-mode .header-container {
+  background-color: black;
+}
+
+body.dark-mode .navbar-cont {
+  background-color: white;
+}
+
+body.dark-mode,
+body.dark-mode .icon-btn-burger,
+body.dark-mode .someInfo {
+  color: white;
+}
+
+body.dark-mode
+  .admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-left
+  .admin-profile-cont-image
+  button
+  i {
+  color: white;
+  border: 3px solid white;
+}
+
+body.dark-mode .admin-home-cont .admin-profile-cont .admin-profile-cont-middle,
+body.dark-mode .admin-home-cont .admin-profile-cont .admin-profile-cont-right,
+body.dark-mode
+  .admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-right
+  .admin-profile-heads {
+  border: 2px solid white;
+}
+
+body.dark-mode .admin-profile-heads.active {
+  font-weight: bold;
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+}
+
+body.dark-mode .icon-btn {
+  color: black;
+}
+
+body.dark-mode .header-container,
+body.dark-mode .newsfeedDIV {
+  border-bottom: 2px solid #ccc;
+}
+
+body.dark-mode .icon-btn:hover,
+body.dark-mode .icon-btn-burger:hover {
+  color: #00bfff;
+}

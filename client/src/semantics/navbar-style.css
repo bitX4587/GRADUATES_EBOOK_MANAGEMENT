@@ -1,0 +1,76 @@
+* {
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.navbar-cont {
+  position: fixed;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background-color: black;
+  padding: 15px 10px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 60px;
+}
+
+.icon-btn-burger {
+  font-size: 24px;
+  color: black;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+}
+
+/* Shared icon button style */
+.icon-btn {
+  font-size: 24px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+}
+
+.icon-btn:hover,
+.icon-btn-burger:hover {
+  color: #007bff;
+  transform: scale(1.2);
+}
+
+.navbar-cont.slide-in {
+  animation: slideIn 0.3s ease forwards;
+}
+
+.navbar-cont.slide-out {
+  animation: slideOut 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%) translateY(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) translateY(-50%);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0) translateY(-50%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%) translateY(-50%);
+    opacity: 0;
+  }
+}

@@ -1,101 +1,128 @@
-import "./App.css";
+import React, { useState, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Register from "./register/register";
-import RegisterAdmin from "./registerAdmin/registerAdmin";
-import Update from "./updateUser/update";
-import UpdateAdmin from "./updateAdmin/updateAdmin";
-import Verify from "./verifyMail/verifyMail";
-import LoginUser from "./loginUser/loginUser";
-import LoginAdmin from "./loginAdmin/loginAdmin";
-import Dashboard from "./dashboard/dashboard";
-import DashboardAdmin from "./dashboard/dashboardAdmin";
-import Logout from "./logoutUser/logoutUser";
 import Homepage from "./homepage/Homepage";
+import Logout from "./logout/logoutUser";
+import Layout from "./semantics/layout";
+import Register from "./register/register";
+import RegisterAdmin from "./register/registerAdmin";
+import LoginUser from "./login/loginUser";
+import LoginAdmin from "./login/loginAdmin";
+import Update from "./update/update";
+import UpdateAdmin from "./update/updateAdmin";
+import Dashboard from "./dashboard/dashboard";
+import Home from "./dashboard/home";
+import Newsfeed from "./dashboard/newsfeed";
+import DashboardAdmin from "./dashboard/dashboardAdmin";
 import ProfileUser from "./profileUser/profileUser";
 import ProfileAdmin from "./profileAdmin/profileAdmin";
-import Forgetpassword from "./forgetpassword/forgetpassword";
-import ForgetPasswordAdmin from "./forgetpassword/forgetpasswordAdmin";
 import ResetPassword from "./resetpassword/resetpassword";
 import DownloadButton from "./download/DownloadButton";
 import ChatRoom from "./chatroom/chatroom";
+import Course from "./courseroadmap/course";
+import ResetPasswordAdmin from "./resetpassword/resetpasswordAdmin";
+import Settings from "./setting/setting";
+import PrivateRoute from "./routes/privateRoute"; // Import PrivateRoute
+import PublicRoute from "./routes/publicRoute"; // Import PublicRoute
+import "./App.css";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.toggle("dark-mode", darkMode);
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => !prev);
+  };
+
   const route = createBrowserRouter([
     {
+      element: <Layout darkMode={darkMode} toggleDarkMode={toggleDarkMode} />,
+      children: [
+        {
+          path: "/dashboard",
+          element: <PrivateRoute element={<Dashboard />} />,
+        },
+        {
+          path: "/home",
+          element: <PrivateRoute element={<Home />} />,
+        },
+        {
+          path: "/newsfeed",
+          element: <PrivateRoute element={<Newsfeed />} />,
+        },
+        {
+          path: "/profile",
+          element: <PrivateRoute element={<ProfileUser />} />,
+        },
+        {
+          path: "/download",
+          element: <PrivateRoute element={<DownloadButton />} />,
+        },
+        {
+          path: "/course",
+          element: <PrivateRoute element={<Course />} />,
+        },
+        {
+          path: "/setting",
+          element: <PrivateRoute element={<Settings />} />,
+        },
+      ],
+    },
+    {
       path: "/",
-      element: <Homepage />,
+      element: <PublicRoute element={<Homepage />} restricted={false} />,
     },
     {
       path: "/register",
-      element: <Register />,
+      element: <PublicRoute element={<Register />} restricted={false} />,
     },
     {
       path: "/registerAdmin",
-      element: <RegisterAdmin />,
-    },
-    {
-      path: "/verify/:id",
-      element: <Verify />,
+      element: <PublicRoute element={<RegisterAdmin />} restricted={false} />,
     },
     {
       path: "/login",
-      element: <LoginUser />,
+      element: <PublicRoute element={<LoginUser />} restricted={true} />,
     },
     {
       path: "/loginAdmin",
-      element: <LoginAdmin />,
-    },
-    {
-      path: "/dashboard",
-      element: <Dashboard />,
-    },
-    {
-      path: "/dashboardAdmin",
-      element: <DashboardAdmin />,
-    },
-    {
-      path: "/update/:id",
-      element: <Update />,
-    },
-    {
-      path: "/updateAdmin/:id",
-      element: <UpdateAdmin />,
-    },
-    {
-      path: "/profile",
-      element: <ProfileUser />,
-    },
-    {
-      path: "/profileAdmin",
-      element: <ProfileAdmin />,
+      element: <PublicRoute element={<LoginAdmin />} restricted={true} />,
     },
     {
       path: "/chatroom/:id",
-      element: <ChatRoom />,
+      element: <PrivateRoute element={<ChatRoom />} />,
     },
     {
-      path: "/download",
-      element: <DownloadButton />,
+      path: "/dashboardAdmin",
+      element: <PrivateRoute element={<DashboardAdmin />} />,
     },
     {
-      path: "/forgetpassword",
-      element: <Forgetpassword />,
+      path: "/profileAdmin",
+      element: <PrivateRoute element={<ProfileAdmin />} />,
     },
     {
-      path: "/forgetpasswordadmin",
-      element: <ForgetPasswordAdmin />,
+      path: "/update",
+      element: <PrivateRoute element={<Update />} />,
+    },
+    {
+      path: "/updateAdmin",
+      element: <PrivateRoute element={<UpdateAdmin />} />,
     },
     {
       path: "/resetpassword",
-      element: <ResetPassword />,
+      element: <PublicRoute element={<ResetPassword />} restricted={true} />,
+    },
+    {
+      path: "/resetpasswordAdmin",
+      element: (
+        <PublicRoute element={<ResetPasswordAdmin />} restricted={true} />
+      ),
     },
     {
       path: "/logout",
-      element: <Logout />,
-    },
-    {
-      path: "*", // Catch all route
-      element: "", // 404 component
+      element: <PrivateRoute element={<Logout />} />,
     },
   ]);
 

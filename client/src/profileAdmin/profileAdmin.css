@@ -1,0 +1,174 @@
+* {
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.admin-home-cont {
+  width: 100%;
+  display: flex;
+}
+
+.admin-home-cont .admin-profile-cont {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 2px solid black;
+}
+
+.admin-home-cont .admin-profile-cont .admin-profile-cont-left {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-left
+  .admin-profile-cont-info {
+  width: 80%;
+  max-width: 400px;
+  text-align: left;
+  padding: 10px 20px 20px 20px;
+  box-sizing: border-box;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-left
+  .admin-profile-cont-info
+  .admin-profile-name {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-left
+  .admin-profile-cont-image {
+  position: relative;
+  display: inline-block;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-left
+  .admin-profile-cont-image
+  img {
+  width: 150px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  margin: 20px;
+  object-fit: cover;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-left
+  .admin-profile-cont-image
+  button {
+  position: absolute;
+  border: none;
+  background: transparent;
+  bottom: 15px;
+  right: 15px;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-left
+  .admin-profile-cont-image
+  button
+  i {
+  font-size: 20px;
+  padding: 7px;
+  border: 3px solid black;
+  color: black;
+  border-radius: 50%;
+}
+
+.admin-home-cont .admin-profile-cont .admin-profile-cont-middle {
+  grid-column: 1 / -1;
+  border: 2px solid black;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.admin-home-cont .admin-profile-cont .admin-profile-cont-right {
+  border: 2px solid black;
+  padding: 20px;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-right
+  .admin-profile-cont-right-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid black;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-right
+  .admin-profile-heads {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  border: 2px solid black;
+  border-bottom: none;
+  cursor: pointer;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-right
+  .admin-profile-info-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-right
+  .admin-profile-info-bottom
+  a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+.admin-home-cont
+  .admin-profile-cont
+  .admin-profile-cont-right
+  .admin-profile-info-bottom
+  .admin-btn-info {
+  display: inline-block;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: none;
+}
+
+.admin-profile-heads {
+  cursor: pointer;
+  padding: 10px;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.admin-profile-heads.active {
+  font-weight: bold;
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+}

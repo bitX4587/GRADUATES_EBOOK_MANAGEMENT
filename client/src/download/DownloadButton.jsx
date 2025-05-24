@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { jsPDF } from "jspdf";
 import { useNavigate } from "react-router-dom";
+import { jsPDF } from "jspdf";
 
 const AutoDownloadUserData = () => {
   const [loading, setLoading] = useState(false);

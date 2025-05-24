@@ -1,0 +1,83 @@
+* {
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.loginBackground {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("../assets/background.jpg") repeat center center;
+  background-size: cover;
+  padding: 20px;
+}
+
+.login-container-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.lottie-animation-top {
+  width: 300px;
+  height: 300px;
+  margin-bottom: 20px;
+}
+
+.loginForm {
+  background-color: white;
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.loginForm input {
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.loginForm button {
+  padding: 15px;
+  font-size: 18px;
+  background: #29cfa3;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.loginForm button:hover {
+  background: #1aa382;
+}
+
+.login-container-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.login-links {
+  color: #004477;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.login-links:hover {
+  text-decoration: underline;
+}
+
+.login-error {
+  color: red;
+  font-size: 14px;
+  margin-top: -10px;
+}

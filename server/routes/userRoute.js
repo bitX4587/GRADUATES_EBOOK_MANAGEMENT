@@ -1,11 +1,9 @@
 // frameworks
 import express from "express";
-import session from "express-session";
 import multer from "multer";
-import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-import { sessionSecret } from "../config/config.js";
+// import path from "path";
+// import { fileURLToPath } from "url";
+// import { dirname } from "path";
 import { isLogin, isLogout } from "../middleware/auth.js";
 
 // methods
@@ -13,6 +11,7 @@ import {
   create,
   createAdmin,
   deleteUser,
+  getAllUsersSchoolID,
   getAllUsers,
   getUserById,
   getAdminById,
@@ -23,81 +22,68 @@ import {
   loadHome,
   loadHomeAdmin,
   userLogout,
-  verifyMail,
-  forgetVerify,
   resetPassword,
+  resetPasswordAdmin,
   downloadUserData,
-  storeMessage,
   getMessages,
+  getSingleUser,
+  getAllAdmins,
+  getAllUsersAdminToken,
+  addUserAchievementByAdmin,
+  deleteUserAchievementByAdmin,
+  checkAuth,
+  getPosts,
+  createPost,
+  editPost,
+  deletePost,
 } from "../controllers/userController.js";
 
 // Initialize router
 const route = express.Router();
 
-// for seamless view routing
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Setup session
-route.use(
-  session({
-    secret: sessionSecret,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-
-// Serve static files from the 'public/userImages' folder inside the server directory
-route.use(
-  "/userImages",
-  express.static(path.join(__dirname, "../public/userImages"))
-);
-
-// Setup multer for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    console.log(file);
-    cb(null, path.join(__dirname, "../public/userImages"));
-  },
-  filename: function (req, file, cb) {
-    const now = new Date();
-    const formattedDate =
-      String(now.getMonth() + 1).padStart(2, "0") +
-      "-" +
-      String(now.getDate()).padStart(2, "0") +
-      "-" +
-      now.getFullYear();
-    const name = `${formattedDate}-${file.originalname}`;
-    cb(null, name);
-  },
-});
-
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // ADMIN Routes
 route.post("/admin", upload.single("image"), createAdmin); // CREATE ADMIN
-route.get("/admin/:id", getAdminById); //READ-UPDATE ADMIN
-route.put("/update/admin/:id", upload.single("image"), updateAdmin); //UPDATE ADMIN
+route.get("/adminID", isLogin, getAdminById); //READ-UPDATE ADMIN
+route.get("/admins", getAllAdmins); //READ ADMINS
+route.put("/update/adminID", isLogin, upload.single("image"), updateAdmin); //UPDATE ADMIN
 route.post("/loginAdmin", verifyAdminLogin); //AUTHENTICATION ADMIN
 route.get("/dashboardAdmin", isLogin, loadHomeAdmin); //PROFILE ADMIN
 
 // USER Routes
 route.post("/user", upload.single("image"), create); // CREATE USER
-route.get("/users", getAllUsers); //READ USER
-route.get("/user/:id", getUserById); //READ-UPDATE USER
-route.put("/update/user/:id", upload.single("image"), update); //UPDATE USER
-route.delete("/delete/user/:id", deleteUser); //DELETE USER
+route.get("/users", isLogin, getAllUsersSchoolID); //READ USER SCHOOL ID
+route.get("/allusers", isLogin, getAllUsers); //READ USER SCHOOL ID
+route.get("/usersAdminToken", isLogin, getAllUsersAdminToken); //READ ADMIN-USERS
+route.post("/usersAdminToken/achievement", isLogin, addUserAchievementByAdmin);
+route.put(
+  "/usersAdminToken/:userId/achievement/delete",
+  isLogin,
+  deleteUserAchievementByAdmin
+);
+route.get("/users/:id", isLogin, getSingleUser);
+route.get("/userID", isLogin, getUserById); //READ-UPDATE USER
+route.put("/update/userID", isLogin, upload.single("image"), update); //UPDATE USER
+route.delete("/delete/user/:id", isLogin, deleteUser); //DELETE USER
 
-route.get("/verify", verifyMail); //VERIFICATION USER
+// route.get("/verify", verifyMail); //VERIFICATION USER
+route.get("/check", isLogin, checkAuth);
 route.post("/login", verifyLogin); //AUTHENTICATION USER
 route.get("/dashboard", isLogin, loadHome); //PROFILE USER
 route.get("/logout", isLogout, userLogout); //LOGOUT USER
 
-route.post("/forget", forgetVerify);
+// route.post("/forget", forgetVerify);
 route.post("/resetpassword", resetPassword);
-route.get("/download-data", downloadUserData);
+route.post("/resetpasswordAdmin", resetPasswordAdmin);
+route.get("/download-data", isLogin, downloadUserData);
 
-route.post("/message", storeMessage);
-route.get("/messages", getMessages);
+// route.post("/message/admin", isLogin, storeMessage); // Secure message sending
+route.get("/messages", isLogin, getMessages); // Secure message fetching
+route.get("/getnewsfeed", isLogin, getPosts);
+route.post("/postnewsfeed", upload.single("image"), isLogin, createPost);
+route.put("/editpost/:postId", upload.single("image"), isLogin, editPost);
+route.delete("/deletepost/:postId", isLogin, deletePost);
 
 export default route; //MOUNT ROUTE TO /API

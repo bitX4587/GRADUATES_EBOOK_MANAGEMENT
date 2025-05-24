@@ -1,0 +1,287 @@
+for email verification
+
+    // {
+    //   path: "/forgetpassword",
+    //   element: <Forgetpassword />,
+    // },
+    // {
+    //   path: "/forgetpasswordadmin",
+    //   element: <ForgetPasswordAdmin />,
+    // },
+
+    
+// import Forgetpassword from "./forgetpassword/forgetpassword";
+// import ForgetPasswordAdmin from "./forgetpassword/forgetpasswordAdmin";
+
+
+import randomstring from "randomstring";
+import nodemailer from "nodemailer";
+
+import { emailPassword, emailUser } from "../config/config.js";
+
+// resetPassword method
+export const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    // Log token for debugging
+    console.log("Token from body:", token);
+
+    // Find the user with the token in the database
+    const user = await User.findOne({ token });
+    console.log("User found:", user);
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid token." });
+    }
+
+    console.log("New Password from frontend:", newPassword);
+
+    if (user) {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      const updateResult = await User.updateOne(
+        { token },
+        {
+          $set: {
+            password: hashedPassword,
+            beta_password: newPassword,
+            token: "",
+          },
+        }
+      );
+      console.log("Hashed Password:", hashedPassword);
+
+      console.log("User found:", user.token);
+
+      console.log("Update result:", updateResult); // Log update result to check if the update was successful
+
+      res.status(200).json({ message: "Password reset successful." });
+    } else {
+      res.status(400).json({ message: "Invalid token." });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Server error." });
+  }
+};
+
+//
+
+// resetpassword.jsx
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
+
+const ResetPassword = () => {
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Extract token from query string
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get("token");
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+
+    if (!password) {
+      toast.error("Password is required!", { position: "top-right" });
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/resetpassword`,
+        {
+          token, // send token in body now
+          newPassword: password,
+        }
+      );
+
+      toast.success(response.data.message, { position: "top-right" });
+      navigate("/");
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.error(error.response.data.message, { position: "top-right" });
+      } else {
+        toast.error("Something went wrong!", { position: "top-right" });
+      }
+    }
+  };
+
+  return (
+    <form className="addUserForm" onSubmit={submitForm}>
+      <div>Reset Password</div>
+      <div className="inputGroup">
+        <label>Password:</label>
+        <input
+          type="password"
+          value={password}
+          onChange={handlePasswordChange}
+          autoComplete="off"
+          placeholder="Enter Your Password"
+        />
+      </div>
+      <div className="inputGroup">
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default ResetPassword;
+
+// await sendVerifyMail(name, email, savedData._id);
+
+// SEND MAIL
+// export const sendVerifyMail = async (name, email, user_id) => {
+//   try {
+//     const transporter = nodemailer.createTransport({
+//       host: "smtp.gmail.com",
+//       port: 587,
+//       secure: false,
+//       requireTLS: true,
+//       auth: {
+//         user: emailUser, // Replace with your email
+//         pass: emailPassword, //google app password
+//       },
+//       tls: {
+//         rejectUnauthorized: false, // Ignore self-signed certificate error
+//       },
+//     });
+//     const mailOptions = {
+//       from: emailUser,
+//       to: email,
+//       subject: "For Verification",
+//       text: "Good Morning, Have A Good Day Norwesian",
+//       html:
+//         "<h1>Hello! " +
+//         name +
+//         ',</h1><p> please click here to <a href="http://localhost:8000/api/verify?id=' +
+//         user_id +
+//         '"> Verify </a> your mail.</p>', //change href
+//     };
+//     transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) {
+//         console.log("Error:", error);
+//       } else {
+//         console.log("Email has been sent:", info.response);
+//       }
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
+
+// //RESET PASSWORD MAIL
+// const sendResetPasswordMail = async (name, email, token) => {
+//   try {
+//     console.log("Hello wrold");
+//     const transporter = nodemailer.createTransport({
+//       host: "smtp.gmail.com",
+//       port: 587,
+//       secure: false,
+//       requireTLS: true,
+//       auth: {
+//         user: emailUser, // Replace with your email
+//         pass: emailPassword, //google app password
+//       },
+//       tls: {
+//         rejectUnauthorized: false, // Ignore self-signed certificate error
+//       },
+//     });
+//     console.log("Hello wrold");
+//     const mailOptions = {
+//       from: emailUser,
+//       to: email,
+//       subject: "For Reset Password",
+//       text: "Good Morning, Have A Good Day Norwesian",
+//       html: `<h1>Hello, ${name}</h1>
+//    <p>Please click here to
+//    <a href="http://localhost:3000/resetpassword?token=${token}">Reset</a>
+//    your password.</p>`,
+//     };
+//     transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) {
+//         console.log("Error:", error);
+//       } else {
+//         console.log("Email has been sent:", info.response);
+//       }
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
+
+// export const verifyMail = async (req, res) => {
+//   try {
+//     // First, check if the user exists in the User collection
+//     let updatedUser = await User.updateOne(
+//       { _id: req.query.id },
+//       { $set: { is_verified: 1 } }
+//     );
+
+//     // If no user is found, check if the admin exists
+//     if (updatedUser.modifiedCount === 0) {
+//       updatedUser = await Admin.updateOne(
+//         { _id: req.query.id },
+//         { $set: { is_verified: 1 } }
+//       );
+//     }
+
+//     // If neither user nor admin was found
+//     if (updatedUser.modifiedCount === 0) {
+//       return res.status(404).json({ message: "User or Admin not found" });
+//     }
+
+//     // Successfully updated
+//     console.log(updatedUser);
+//     res.status(200).send("✅ Email verified successfully!");
+//   } catch (error) {
+//     console.error(error.message);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
+
+
+// export const forgetVerify = async (req, res) => {
+//   try {
+//     const { email } = req.body;
+//     const userData = await User.findOne({ email });
+
+//     if (userData) {
+//       if (userData.is_verified === 0) {
+//         return res.status(400).json({ message: "Please verify your email." });
+//       } else {
+//         const randomString = randomstring.generate();
+//         await User.updateOne(
+//           { email: email },
+//           { $set: { token: randomString } }
+//         );
+
+//         // Send reset password email
+//         await sendResetPasswordMail(
+//           userData.name,
+//           userData.email,
+//           randomString
+//         );
+
+//         return res.status(200).json({
+//           message: "Please check your email to reset your password.",
+//         });
+//       }
+//     } else {
+//       return res.status(404).json({ message: "User email is incorrect." });
+//     }
+//   } catch (error) {
+//     console.log(error.message);
+//     return res.status(500).json({ message: "Server error." });
+//   }
+// };

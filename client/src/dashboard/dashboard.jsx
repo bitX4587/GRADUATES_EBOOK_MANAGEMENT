@@ -1,34 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import CE from "./courseroadmap/CE";
-import ME from "./courseroadmap/ME";
+import "./dashboard-style.css";
 
-// UserCard Component
 function UserCard({ user }) {
   return (
     <div>
-      <p>{user.name}</p>
-      {/* Pass targetId in URL */}
-      <Link to={`/chatroom/${user._id}`}>Chat with {user.name}</Link>
+      <Link to={`/chatroom/${user._id}`} className="message-icon">
+        <i className="fa-solid fa-message"></i>
+      </Link>
     </div>
   );
 }
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
-  const [course, setCourse] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch users data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/users");
-        console.log(response);
-
-        // Check if the response data is an array before setting it
+        const response = await axios.get("http://localhost:8000/api/users", {
+          withCredentials: true,
+        });
         if (Array.isArray(response.data)) {
-          setUsers(response.data); // Set users only if the data is an array
+          setUsers(response.data);
         } else {
           console.error("Received data is not an array", response.data);
         }
@@ -39,79 +35,101 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  // You can use sessionStorage, localStorage, or an API call to fetch the user's course
-  useEffect(() => {
-    const userCourse = sessionStorage.getItem("course"); // Assuming the course is stored in sessionStorage
-    setCourse(userCourse); // Set the user's course (CE or ME)
-  }, []);
+  const filteredUsers = users.filter((user) =>
+    user?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="userTable">
-      {/* Render Course Roadmap Based on User's Course */}
-      {course === "CE" ? (
-        <CE />
-      ) : course === "ME" ? (
-        <ME />
-      ) : (
-        <div>Please select your course</div> // Show if course data is missing
-      )}
+    <div className="container py-4 dashboard">
+      <div className="mb-4 generalDIV">
+        <div className="input-group">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search users..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <span className="input-group-text bg-light">
+            <i className="fa fa-search"></i>
+          </span>
+        </div>
+      </div>
 
-      {/* User Table */}
       {users.length === 0 ? (
-        <div className="noData">
-          <h3>No Data to display.</h3>
-          <p>Please add New User</p>
+        <div className="text-center text-muted">
+          <h4>No Data to Display</h4>
+          <p>Please add a new user</p>
+        </div>
+      ) : filteredUsers.length === 0 ? (
+        <div className="text-center text-muted">
+          <h4 className="someInfo">No Users Found</h4>
+          <p className="someInfo">Try a different search term</p>
         </div>
       ) : (
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">S.No</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Mobile</th>
-              <th scope="col">Image</th>
-              <th scope="col">Password</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, index) => {
-              return (
-                <tr key={user._id}>
-                  <td>{users.indexOf(user) + 1}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.mobile}</td>
-                  <td>
-                    {user.image ? (
-                      <img
-                        src={`http://localhost:8000/api/userImages/${user.image}`}
-                        alt={user.name}
-                        width="50"
-                        height="50"
-                        style={{ borderRadius: "50%", objectFit: "cover" }}
-                        onError={() => console.log("Image is not showing")}
-                      />
-                    ) : (
-                      "No Image"
-                    )}
-                  </td>
-                  <td>{user.beta_password}</td>
-                  {/* Use UserCard component to show chat link */}
-                  <td>
-                    <UserCard user={user} />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="row g-4">
+          {filteredUsers.map((user, index) => (
+            <div className="col-md-6 col-lg-4" key={user._id}>
+              <div className="card h-100 shadow-sm border-1 p-3 text-center position-relative">
+                <p
+                  className="position-absolute top-0 start-0 m-2 fw-bold fs-6 bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center"
+                  style={{ width: "30px", height: "30px" }}
+                >
+                  {index + 1}
+                </p>
+
+                <div className="position-relative mb-3">
+                  {user.image ? (
+                    <img
+                      src={user.image?.url || "/default-profile.png"}
+                      alt={user.name}
+                      className="rounded-circle img-thumbnail"
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "cover",
+                      }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/default-profile.png";
+                      }}
+                    />
+                  ) : (
+                    <div className="text-muted">No Image</div>
+                  )}
+
+                  <div className="position-absolute top-0 end-0 me-2 mt-2">
+                    <div className="dashboard-user-chat">
+                      <UserCard user={user} />
+                    </div>
+                  </div>
+                </div>
+                <h5 className="mb-1">{user.name}</h5>
+                <p className="text-muted mb-2">{user.mobile}</p>
+                <p className="text-muted mb-2">{user.email}</p>
+                {user.achievements && user.achievements.length > 0 && (
+                  <div className="mt-2">
+                    {user.achievements.map((ach, i) => (
+                      <span key={i} className="badge bg-success me-1 mb-1">
+                        {ach}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       )}
 
-      <div>
-        <Link to="/profile">Go to your Profile</Link>
-      </div>
+      <Link
+        to="/home"
+        className="btn btn-primary position-fixed text-decoration-none"
+        style={{ bottom: "20px", right: "20px", zIndex: 1000 }}
+        aria-label="Go to Home"
+      >
+        Home <i className="fas fa-arrow-right ms-2"></i>
+      </Link>
     </div>
   );
 };

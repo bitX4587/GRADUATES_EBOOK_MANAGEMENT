@@ -15,9 +15,19 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String,
+  SchoolID: {
+    type: Number,
     required: true,
+  },
+  image: {
+    url: {
+      type: String,
+      required: true,
+    },
+    public_id: {
+      type: String,
+      required: true,
+    },
   },
   password: {
     type: String,
@@ -28,6 +38,10 @@ const adminSchema = new mongoose.Schema({
     required: true,
   },
   is_admin: {
+    type: String,
+    required: true,
+  },
+  is_admin_token: {
     type: Number,
     required: true,
   },

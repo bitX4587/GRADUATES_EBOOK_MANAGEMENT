@@ -1,0 +1,357 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.home-cont {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #333;
+}
+
+.profile-cont {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  width: 100%;
+  max-width: 1200px;
+  backdrop-filter: blur(20px);
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.profile-cont-left {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-right: 2px solid #ccc;
+  border-bottom: 2px solid #ccc;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 0px;
+}
+
+.profile-cont-image {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.profile-cont-image img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-cont-image button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-cont-info {
+  width: 100%;
+  max-width: 300px;
+  text-align: start;
+}
+
+.profile-name {
+  display: flex;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #007bff;
+  padding-bottom: 10px;
+}
+
+.profile-cont-info div {
+  margin: 8px 0px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-cont-middle {
+  background-color: #f0f4f8;
+  grid-column: span 2;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.profile-cont-middle h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.profile-cont-right {
+  padding: 30px;
+}
+
+.profile-cont-right-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+}
+
+.profile-heads {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  font-weight: 600;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.profile-heads:hover {
+  background-color: #e3f2fd;
+}
+
+.profile-heads.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.profile-info-bottom {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: center;
+}
+
+.profile-info-bottom a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-info {
+  background-color: #007bff;
+  color: black;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-info:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.camera-btn {
+  border-radius: 50%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 8px 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.camera-btn:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  background-color: #f0f0f0;
+}
+
+.gradient-text {
+  background: linear-gradient(
+    270deg,
+    #ff0000,
+    /* red */ #ff7f00,
+    /* orange */ #ffff00,
+    /* yellow */ #00ff00,
+    /* green */ #0000ff,
+    /* blue */ #4b0082,
+    /* indigo */ #8b00ff /* violet */
+  );
+  background-size: 1400% 1400%; /* larger size for smooth flow */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+  animation: rainbowWave 8s linear infinite;
+}
+
+@keyframes rainbowWave {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Mobile responsive adjustments for screens <= 660px */
+@media screen and (max-width: 660px) {
+  .profile-cont {
+    grid-template-columns: 1fr; /* Stack content vertically */
+    max-width: 100%;
+  }
+
+  .profile-cont-left,
+  .profile-cont-middle,
+  .profile-cont-right {
+    width: 100%;
+    margin: 0;
+    padding: 15px;
+  }
+
+  .profile-cont-left {
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .profile-cont-image img {
+    width: 120px; /* Resize the profile image */
+    height: 120px;
+  }
+
+  .profile-cont-image button {
+    bottom: 5px;
+    right: 5px;
+    padding: 8px;
+  }
+
+  .profile-name {
+    font-size: 1.4rem;
+  }
+
+  .profile-cont-info {
+    max-width: none;
+  }
+
+  .profile-cont-middle h3 {
+    font-size: 1.2rem;
+  }
+
+  .profile-cont-right-head {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .profile-heads {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .profile-info-bottom .btn-info {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .profile-info-bottom a {
+    font-size: 14px;
+  }
+}
+
+/* Mobile responsive adjustments for screens below 520px */
+@media screen and (max-width: 520px) {
+  .home-cont {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    color: #333;
+  }
+
+  .profile-cont {
+    display: flex;
+    flex-direction: column; /* Stack the content vertically */
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+  }
+
+  .profile-cont-left,
+  .profile-cont-middle,
+  .profile-cont-right {
+    width: 100%; /* Ensure each section takes up full width */
+    padding: 15px;
+    margin-bottom: 10px; /* Space between the sections */
+  }
+
+  .profile-cont-left {
+    text-align: center;
+    border: none; /* Remove border on smaller screens */
+  }
+
+  .profile-cont-image img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 20px;
+    object-fit: cover;
+  }
+
+  .profile-cont-image button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 8px;
+  }
+
+  .profile-name {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+
+  .profile-cont-info {
+    background-color: #f9f9f9;
+    padding: 10px;
+    text-align: left;
+    box-sizing: border-box;
+  }
+
+  .profile-cont-middle h3 {
+    font-size: 1.2rem;
+  }
+
+  .profile-cont-right-head {
+    display: flex;
+    flex-direction: column; /* Stack header sections vertically */
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+  }
+
+  .profile-heads {
+    padding: 10px;
+    text-align: center;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+  .profile-info-bottom {
+    padding-top: 20px;
+    text-align: center;
+  }
+
+  .profile-info-bottom .btn-info {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  /* Ensure that the profile info sections remain flexible */
+  .profile-heads.active {
+    background-color: #007bff;
+    color: white;
+  }
+}

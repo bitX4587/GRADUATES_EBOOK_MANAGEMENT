@@ -1,0 +1,11 @@
+* {
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.navbar-wrapper {
+  position: absolute;
+  top: 50px; /* adjust based on header height */
+  left: 20px;
+  z-index: 1000;
+}

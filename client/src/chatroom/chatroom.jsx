@@ -1,99 +1,191 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom"; // For accessing URL params
-import { socket } from "./socket"; // Correct path
+import { socket } from "./socket";
+import "./chatroom-style.css";
 
 function ChatRoom() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const { id: targetId } = useParams(); // Get targetId from the URL
-
-  const userId = sessionStorage.getItem("userId");
+  const [userId, setUserId] = useState(null);
+  const [userProfile, setUserProfile] = useState({});
+  const [targetProfile, setTargetProfile] = useState({});
+  const [typing, setTyping] = useState(false);
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const { id: targetId } = useParams();
+  const bottomRef = useRef(null);
 
   useEffect(() => {
-    if (!socket.connected) {
-      socket.connect();
-    }
-    if (!userId || !targetId) {
-      console.error("Missing userId or targetId — cannot proceed.");
-      return;
-    }
+    axios
+      .get("http://localhost:8000/api/dashboard", { withCredentials: true })
+      .then((res) => {
+        const user = res.data.user;
+        setUserId(String(user.id));
+        setUserProfile(user);
 
-    // Fetch messages for the specific chatroom by targetId
+        if (!socket.connected) {
+          socket.connect();
+          socket.once("connect", () => {
+            socket.emit("join", user.id);
+          });
+        } else {
+          socket.emit("join", user.id);
+        }
+      })
+      .catch((err) => console.error("User fetch error", err));
+  }, []);
+
+  useEffect(() => {
+    if (targetId) {
+      axios
+        .get(`http://localhost:8000/api/users/${targetId}`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          setTargetProfile(res.data);
+        })
+        .catch((err) => console.error("Target user fetch error", err));
+    }
+  }, [targetId]);
+
+  useEffect(() => {
+    if (!userId || !targetId) return;
+
     axios
       .get("http://localhost:8000/api/messages", {
-        params: { userId, targetId },
+        params: { targetId },
+        withCredentials: true,
       })
       .then((res) => setMessages(res.data))
-      .catch((err) => console.error("Message fetch error:", err));
+      .catch((err) => console.error("Message fetch error", err));
 
-    socket.emit("join", userId);
-
-    socket.on("privateMessage", (msg) => {
+    const privateMessageHandler = (msg) => {
       if (
         (msg.from === userId && msg.to === targetId) ||
         (msg.from === targetId && msg.to === userId)
       ) {
         setMessages((prev) => [...prev, msg]);
       }
-    });
+    };
+
+    const typingHandler = (senderId) => {
+      if (senderId === targetId) {
+        setTyping(true);
+        setTimeout(() => setTyping(false), 1000);
+      }
+    };
+
+    socket.on("privateMessage", privateMessageHandler);
+    socket.on("typing", typingHandler);
 
     return () => {
-      socket.off("privateMessage");
+      socket.off("privateMessage", privateMessageHandler);
+      socket.off("typing", typingHandler);
     };
   }, [userId, targetId]);
 
-  const sendMessage = () => {
-    if (input.trim() !== "") {
-      const msg = {
-        from: userId,
-        to: targetId,
-        message: input,
-      };
+  useEffect(() => {
+    const handleUpdateStatus = (onlineList) => {
+      setOnlineUsers(onlineList);
+    };
 
-      socket.emit("privateMessage", msg);
-      setInput("");
-    }
-  };
+    socket.on("updateUserStatus", handleUpdateStatus);
+
+    return () => {
+      socket.off("updateUserStatus", handleUpdateStatus);
+    };
+  }, []);
 
   useEffect(() => {
     const chatBox = document.getElementById("chat-box");
-    if (chatBox) {
-      chatBox.scrollTop = chatBox.scrollHeight;
+    if (!chatBox) return;
+
+    const isNearBottom =
+      chatBox.scrollHeight - chatBox.scrollTop - chatBox.clientHeight < 100;
+
+    if (isNearBottom) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
-  return (
-    <div>
-      <h2>Chat Room</h2>
-      <p>
-        Chatting with: <strong>{targetId}</strong>
-      </p>
+  const sendMessage = () => {
+    if (input.trim() === "" || !userId || !targetId) return;
 
-      <div
-        id="chat-box"
-        style={{
-          height: 300,
-          overflowY: "scroll",
-          border: "1px solid black",
-          padding: 10,
-        }}
-      >
-        {messages.map((msg, idx) => (
-          <div key={idx}>
-            <strong>{msg.from === userId ? "You" : "Them"}</strong>:{" "}
-            {msg.message}
-          </div>
-        ))}
+    const msg = {
+      from: userId,
+      to: targetId,
+      message: input.trim(),
+      timestamp: new Date().toISOString(),
+    };
+
+    socket.emit("privateMessage", msg);
+    setInput("");
+  };
+
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+    socket.emit("typing", targetId);
+  };
+
+  const isOnline = onlineUsers.includes(targetId);
+  return (
+    <div className="chat-container mt-4 mb-4">
+      <div className="chat-header">
+        <span className={`status-dot ${isOnline ? "online" : "offline"}`} />
+        <h2>Chat with {targetProfile.name || targetId}</h2>
+        <Link to="/dashboard" className="back-btn text-decoration-none">
+          Back
+        </Link>
       </div>
 
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Type your message"
-      />
-      <button onClick={sendMessage}>Send</button>
-      <Link to="/dashboard">Back</Link>
+      <div id="chat-box" className="chat-box">
+        {messages.map((msg, idx) => {
+          const fromMe = msg.from === userId;
+          const profile = fromMe ? userProfile : targetProfile;
+          const time = new Date(msg.timestamp).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+          return (
+            <div key={idx} className={`chat-message ${fromMe ? "me" : "them"}`}>
+              {profile.image ? (
+                <img
+                  src={profile.image?.url || "/default-profile.png"}
+                  alt={profile.name}
+                  className="avatar-img"
+                />
+              ) : (
+                <div className="avatar-fallback">
+                  {profile.name?.slice(0, 2).toUpperCase()}
+                </div>
+              )}
+              <div className="message-content">
+                <div className="text">{msg.message}</div>
+                <div className="text-black timestamp">{time}</div>
+              </div>
+            </div>
+          );
+        })}
+
+        {typing && (
+          <div className="typing-indicator">
+            <span>{targetProfile.name || targetId} is typing...</span>
+          </div>
+        )}
+
+        <div ref={bottomRef} />
+      </div>
+
+      <div className="chat-input">
+        <input
+          value={input}
+          onChange={handleInputChange}
+          placeholder="Type a message"
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+        />
+        <button onClick={sendMessage}>Send</button>
+      </div>
     </div>
   );
 }
