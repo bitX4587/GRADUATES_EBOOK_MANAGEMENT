@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import Admin from "../models/adminModel.js";
 import Message from "../models/messages.js";
 import Post from "../models/newsfeed.js";
-import bcrypt from "bcrypt"; //password encryption
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
