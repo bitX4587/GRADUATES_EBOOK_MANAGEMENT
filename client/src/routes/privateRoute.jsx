@@ -8,9 +8,12 @@ const PrivateRoute = ({ element }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/check", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/check`,
+          {
+            withCredentials: true,
+          }
+        );
         console.log("✅ Authenticated:", res.data.user);
         setIsAuthenticated(true);
       } catch (error) {

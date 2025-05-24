@@ -85,7 +85,8 @@ const LoginUser = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/loginAdmin",
+        `
+        ${process.env.REACT_APP_API_URL}/api/loginAdmin`,
         { email, password },
         { withCredentials: true }
       );

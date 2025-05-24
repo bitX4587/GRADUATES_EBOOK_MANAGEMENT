@@ -11,7 +11,8 @@ const ProfileAdmin = () => {
     const fetchAdminData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/dashboardAdmin",
+          `
+          ${process.env.REACT_APP_API_URL}/api/dashboardAdmin`,
           {
             withCredentials: true,
           }
@@ -33,13 +34,17 @@ const ProfileAdmin = () => {
     formData.append("image", file);
 
     try {
-      await axios.put("http://localhost:8000/api/update/adminID", formData, {
-        withCredentials: true,
-      });
+      await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/update/adminID, formData`,
+        {
+          withCredentials: true,
+        }
+      );
 
       // Re-fetch updated admin data
       const response = await axios.get(
-        "http://localhost:8000/api/dashboardAdmin",
+        `
+        ${process.env.REACT_APP_API_URL}/api/dashboardAdmin`,
         {
           withCredentials: true,
         }

@@ -63,7 +63,8 @@ const AddAdmin = ({ onCancel, onSwitchToUser }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/admin",
+        `
+        ${process.env.REACT_APP_API_URL}/api/admin`,
         formData
       );
       toast.success(response.data.message, { position: "top-right" });

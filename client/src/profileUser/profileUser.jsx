@@ -16,7 +16,8 @@ const ProfileUser = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/dashboard",
+          `
+          ${process.env.REACT_APP_API_URL}/api/dashboard`,
           {
             withCredentials: true,
           }
@@ -43,7 +44,8 @@ const ProfileUser = () => {
 
     try {
       await axios.put(
-        `http://localhost:8000/api/update/userID`, // Replace with actual user ID if needed
+        `
+        ${process.env.REACT_APP_API_URL}/api/update/userID`, // Replace with actual user ID if needed
         formData,
         {
           withCredentials: true,
@@ -51,9 +53,12 @@ const ProfileUser = () => {
       );
 
       // Re-fetch updated user data
-      const response = await axios.get("http://localhost:8000/api/dashboard", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/dashboard`,
+        {
+          withCredentials: true,
+        }
+      );
       setUser(response.data.user);
 
       console.log("Image updated successfully!");

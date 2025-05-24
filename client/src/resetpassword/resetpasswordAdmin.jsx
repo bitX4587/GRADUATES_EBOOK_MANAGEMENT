@@ -29,7 +29,8 @@ const ResetPasswordAdmin = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/resetpasswordAdmin",
+        `
+        ${process.env.REACT_APP_API_URL}/api/resetpasswordAdmin`,
         {
           email,
           newPassword: password,

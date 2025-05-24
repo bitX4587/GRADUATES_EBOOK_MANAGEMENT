@@ -23,7 +23,7 @@ const AddUser = ({ onCancel, onSwitchToAdmin }) => {
   // 👇 Fetch all admins on load
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/admins")
+      .get(`${process.env.REACT_APP_API_URL}/api/admins`)
       .then((res) => {
         console.log("Admins:", res.data); // Check here
         setAdminList(res.data);
@@ -94,7 +94,8 @@ const AddUser = ({ onCancel, onSwitchToAdmin }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/user",
+        `
+        ${process.env.REACT_APP_API_URL}/api/user`,
         formData
       );
       toast.success(response.data.message, { position: "top-right" });

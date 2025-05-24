@@ -17,7 +17,9 @@ function ChatRoom() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/dashboard", { withCredentials: true })
+      .get(`${process.env.REACT_APP_API_URL}/api/dashboard`, {
+        withCredentials: true,
+      })
       .then((res) => {
         const user = res.data.user;
         setUserId(String(user.id));
@@ -38,7 +40,7 @@ function ChatRoom() {
   useEffect(() => {
     if (targetId) {
       axios
-        .get(`http://localhost:8000/api/users/${targetId}`, {
+        .get(`${process.env.REACT_APP_API_URL}/api/users/${targetId}`, {
           withCredentials: true,
         })
         .then((res) => {
@@ -52,7 +54,7 @@ function ChatRoom() {
     if (!userId || !targetId) return;
 
     axios
-      .get("http://localhost:8000/api/messages", {
+      .get(`${process.env.REACT_APP_API_URL}/api/messages`, {
         params: { targetId },
         withCredentials: true,
       })

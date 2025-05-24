@@ -25,7 +25,8 @@ const Newsfeed = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/dashboard",
+          `
+          ${process.env.REACT_APP_API_URL}/api/dashboard`,
           {
             withCredentials: true,
           }
@@ -42,7 +43,8 @@ const Newsfeed = () => {
   const fetchPosts = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/getnewsfeed",
+        `
+        ${process.env.REACT_APP_API_URL}/api/getnewsfeed`,
         {
           withCredentials: true,
         }
@@ -66,7 +68,8 @@ const Newsfeed = () => {
         formData.append("image", postImage);
       }
       const response = await axios.post(
-        "http://localhost:8000/api/postnewsfeed",
+        `
+        ${process.env.REACT_APP_API_URL}/api/postnewsfeed`,
         formData, // send formData here, not JSON object
         {
           withCredentials: true,
@@ -115,7 +118,8 @@ const Newsfeed = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:8000/api/editpost/${postId}`,
+        `
+        ${process.env.REACT_APP_API_URL}/api/editpost/${postId}`,
         formData,
         {
           withCredentials: true,
@@ -153,9 +157,12 @@ const Newsfeed = () => {
     if (!postId) return;
 
     try {
-      await axios.delete(`http://localhost:8000/api/deletepost/${postId}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/deletepost/${postId}`,
+        {
+          withCredentials: true,
+        }
+      );
       setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
     } catch (error) {
       console.error("Error deleting post", error.response?.data?.message);

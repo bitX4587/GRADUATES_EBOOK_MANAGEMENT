@@ -10,12 +10,16 @@ function Settings() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/dashboard", { withCredentials: true })
+      .get(`${process.env.REACT_APP_API_URL}/api/dashboard`, {
+        withCredentials: true,
+      })
       .then((res) => setUser(res.data.user))
       .catch((err) => console.error("Failed to fetch user info", err));
 
     axios
-      .get("http://localhost:8000/api/updates", { withCredentials: true })
+      .get(`${process.env.REACT_APP_API_URL}/api/updates`, {
+        withCredentials: true,
+      })
       .then((res) => setUpdates(res.data.updates))
       .catch((err) => console.error("Failed to fetch updates", err));
   }, []);
@@ -30,7 +34,8 @@ function Settings() {
 
     axios
       .post(
-        "http://localhost:8000/api/messages/admin",
+        `
+        ${process.env.REACT_APP_API_URL}/api/messages/admin`,
         { from: user.id, message },
         { withCredentials: true }
       )

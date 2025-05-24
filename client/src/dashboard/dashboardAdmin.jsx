@@ -17,7 +17,8 @@ const DashboardAdmin = () => {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/usersAdminToken",
+        `
+        ${process.env.REACT_APP_API_URL}/api/usersAdminToken`,
         {
           withCredentials: true,
         }
@@ -40,7 +41,8 @@ const DashboardAdmin = () => {
   const confirmDeleteUser = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:8000/api/delete/user/${selectedUserId}`,
+        `
+        ${process.env.REACT_APP_API_URL}/api/delete/user/${selectedUserId}`,
         {
           withCredentials: true,
         }
@@ -63,7 +65,8 @@ const DashboardAdmin = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/usersAdminToken/achievement`,
+        `
+        ${process.env.REACT_APP_API_URL}/api/usersAdminToken/achievement`,
         {
           userId: selectedUser._id,
           achievement: achievementInput,
@@ -96,7 +99,7 @@ const DashboardAdmin = () => {
       );
 
       const response = await axios.put(
-        `http://localhost:8000/api/usersAdminToken/${selectedUser._id}/achievement/delete`,
+        `${process.env.REACT_APP_API_URL}/api/usersAdminToken/${selectedUser._id}/achievement/delete`,
         {
           achievements: updatedAchievements,
         },

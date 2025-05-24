@@ -9,7 +9,7 @@ const Logout = () => {
     const logoutUser = async () => {
       try {
         // Send a request to the server to log out (clear the JWT cookie)
-        await axios.get("http://localhost:8000/api/logout", {
+        await axios.get(`${process.env.REACT_APP_API_URL}/api/logout`, {
           withCredentials: true, // Make sure cookies are included with the request
         });
 

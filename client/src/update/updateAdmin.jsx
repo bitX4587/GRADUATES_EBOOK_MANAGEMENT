@@ -25,7 +25,9 @@ const UpdateAdmin = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/adminID", { withCredentials: true })
+      .get(`${process.env.REACT_APP_API_URL}/api/adminID`, {
+        withCredentials: true,
+      })
       .then((response) => {
         const { name, email, mobile } = response.data.admin;
         setAdmin({ name, email, mobile });
@@ -51,7 +53,8 @@ const UpdateAdmin = () => {
 
     try {
       const response = await axios.put(
-        "http://localhost:8000/api/update/adminID",
+        `
+        ${process.env.REACT_APP_API_URL}/api/update/adminID`,
         formData,
         {
           headers: {

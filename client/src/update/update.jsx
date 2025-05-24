@@ -36,7 +36,7 @@ const UpdateUser = () => {
   // get fetch user data
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/userID", {
+      .get(`${process.env.REACT_APP_API_URL}/api/userID`, {
         withCredentials: true, // 🔥 Send cookies
       })
       .then((response) => {
@@ -73,7 +73,8 @@ const UpdateUser = () => {
     try {
       // Send FormData to backend
       const response = await axios.put(
-        "http://localhost:8000/api/update/userID",
+        `
+        ${process.env.REACT_APP_API_URL}/api/update/userID`,
         formData,
         {
           headers: {
