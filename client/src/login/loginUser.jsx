@@ -119,7 +119,10 @@ const LoginUser = () => {
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
-          <div ref={containerRef} className="lottie-animation-top" />
+          <div className="lottie-animation-top-wrapper">
+            <div ref={containerRef} className="lottie-animation-top" />
+          </div>
+
           <input
             type="email"
             name="email"

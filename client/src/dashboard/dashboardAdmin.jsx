@@ -9,6 +9,11 @@ const DashboardAdmin = () => {
   const [achievementInput, setAchievementInput] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [expandedUserId, setExpandedUserId] = useState(null);
+
+  const toggleDetails = (userId) => {
+    setExpandedUserId((prev) => (prev === userId ? null : userId));
+  };
 
   useEffect(() => {
     fetchUsers();
@@ -132,36 +137,44 @@ const DashboardAdmin = () => {
       <h3 className="mb-4">Admin Dashboard</h3>
       {users.length === 0 ? (
         <div className="alert text-center">
-          <h1 className="someInfo">No Users Found. </h1>
+          <h1 className="someInfo">No Users Found.</h1>
         </div>
       ) : (
-        <table className="table table-sm table-striped table-bordered align-middle text-center custom-table">
-          <thead className="table-dark">
-            <tr>
-              <th>S.No</th>
-              <th>Name</th>
-              <th>Achievements</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, idx) => (
-              <tr key={user._id}>
-                <td>{idx + 1}</td>
-                <td>{user.name}</td>
-                <td>
-                  {(user.achievements || []).map((ach, i) => (
-                    <div key={i} className="mb-1">
-                      <span className="badge bg-success text-center">
-                        {ach}
-                      </span>
+        <div className="list-group">
+          {users.map((user, idx) => (
+            <div
+              key={user._id}
+              className="list-group-item list-group-item-action flex-column align-items-start mb-3 shadow-sm"
+            >
+              <div className="d-flex justify-content-between w-100">
+                <div>
+                  <h5 className="mb-1">
+                    {idx + 1}. {user.name}
+                  </h5>
+                </div>
+                <button
+                  className="btn btn-link text-primary p-0 text-decoration-none"
+                  onClick={() => toggleDetails(user._id)}
+                >
+                  {expandedUserId === user._id ? "Hide" : "View"} Details
+                </button>
+              </div>
+
+              {expandedUserId === user._id && (
+                <div className="mt-3">
+                  <div className="mb-2">
+                    <strong>Achievements:</strong>
+                    <div className="d-flex flex-wrap gap-2 mt-2">
+                      {(user.achievements || []).map((ach, i) => (
+                        <span key={i} className="badge bg-success">
+                          {ach}
+                        </span>
+                      ))}
                     </div>
-                  ))}
-                </td>
-                <td>
-                  <div className="d-flex justify-content-center">
+                  </div>
+                  <div className="d-flex gap-2">
                     <button
-                      className="btn btn-primary btn-sm me-2 "
+                      className="btn btn-primary btn-sm"
                       onClick={() => setSelectedUser(user)}
                       data-bs-toggle="modal"
                       data-bs-target="#achievementModal"
@@ -175,39 +188,14 @@ const DashboardAdmin = () => {
                       <i className="fa fa-trash"></i>
                     </button>
                   </div>
-                  {showDeleteModal && (
-                    <div className="modal-overlay">
-                      <div className="modal-content">
-                        <h3>⚠️ Are You Sure?</h3>
-                        <p>
-                          This will permanently delete the user and all related
-                          data.
-                        </p>
-                        <div className="modal-buttons">
-                          <button
-                            className="modal-button confirm"
-                            onClick={confirmDeleteUser}
-                            style={{ backgroundColor: "red" }}
-                          >
-                            Yes, delete
-                          </button>
-                          <button
-                            className="modal-button cancel"
-                            onClick={() => setShowDeleteModal(false)}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       )}
 
+      {/* Achievement Modal */}
       <div
         className="modal fade"
         id="achievementModal"
@@ -264,6 +252,32 @@ const DashboardAdmin = () => {
           </div>
         </div>
       </div>
+
+      {showDeleteModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>⚠️ Are You Sure?</h3>
+            <p>This will permanently delete the user and all related data.</p>
+            <div className="modal-buttons">
+              <button
+                className="modal-button confirm"
+                onClick={confirmDeleteUser}
+                style={{ backgroundColor: "red" }}
+              >
+                Yes, delete
+              </button>
+              <button
+                className="modal-button cancel"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Button */}
       <Link
         to="/profileAdmin"
         className="btn btn-primary position-fixed text-decoration-none"

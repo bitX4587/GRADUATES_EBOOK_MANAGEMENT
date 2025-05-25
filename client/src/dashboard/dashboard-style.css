@@ -102,3 +102,21 @@ textarea.form-control {
     opacity: 1;
   }
 }
+
+@media (max-width: 768px) {
+  .generalDIV {
+    margin-top: 120px;
+  }
+}
+
+@media (max-width: 312px) {
+  .generalDIV {
+    margin-top: 150px;
+  }
+}
+
+@media (max-width: 291px) {
+  .generalDIV {
+    margin-top: 170px;
+  }
+}

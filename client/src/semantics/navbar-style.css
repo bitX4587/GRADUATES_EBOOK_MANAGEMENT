@@ -17,7 +17,7 @@
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  width: 60px;
+  width: clamp(40px, 8vw, 60px);
 }
 
 .icon-btn-burger {
@@ -31,12 +31,13 @@
 
 /* Shared icon button style */
 .icon-btn {
-  font-size: 24px;
+  font-size: clamp(18px, 4vw, 24px); /* scales between 18px and 24px */
   color: white;
   background: none;
   border: none;
   cursor: pointer;
   transition: color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+  padding: 0.25em; /* adds a little clickable area */
 }
 
 .icon-btn:hover,
@@ -72,5 +73,13 @@
   to {
     transform: translateX(-100%) translateY(-50%);
     opacity: 0;
+  }
+}
+
+/* On small devices, position at the top */
+@media (max-width: 600px) {
+  .navbar-cont {
+    top: 400px;
+    left: 5px;
   }
 }

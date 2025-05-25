@@ -4,7 +4,13 @@
 }
 
 .homepage-container {
-  padding: 60px 0px 60px 0px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  overflow: hidden;
 }
 
 .object-fit-cover {
@@ -73,7 +79,8 @@ body.dark-mode .admin-profile-heads.active {
   border-bottom: 2px solid #007bff;
 }
 
-body.dark-mode .icon-btn {
+body.dark-mode .icon-btn,
+body.dark-mode .message-content {
   color: black;
 }
 
