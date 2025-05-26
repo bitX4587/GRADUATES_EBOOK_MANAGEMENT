@@ -35,7 +35,7 @@ const Homepage = () => {
 
       <div className="container d-flex justify-content-center align-items-center h-100 position-relative z-2">
         <div
-          className="glass-card row w-100 m-4"
+          className="glass-card row w-100 m-2"
           style={{ minHeight: "600px" }}
         >
           {/* Left Side */}
@@ -51,8 +51,8 @@ const Homepage = () => {
           <div
             className={
               showRegister
-                ? "col-12 col-md-12 col-xxl-6 d-flex align-items-center justify-content-center"
-                : "col-12 col-md-12 col-xxl-6 d-flex align-items-center justify-content-center"
+                ? "col-12 col-md-12 col-xxl-6 d-flex align-items-center justify-content-center p-0"
+                : "col-12 col-md-12 col-xxl-6 d-flex align-items-center justify-content-center p-0"
             }
           >
             {showRegister ? (

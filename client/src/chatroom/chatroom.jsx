@@ -132,7 +132,7 @@ function ChatRoom() {
   const isOnline = onlineUsers.includes(targetId);
   return (
     <div className="d-flex w-100 justify-content-center">
-      <div className="chat-container m-2">
+      <div className="chat-container m-1">
         <div className="chat-header">
           <span className={`status-dot ${isOnline ? "online" : "offline"}`} />
           <h2>Chat with {targetProfile.name || targetId}</h2>
