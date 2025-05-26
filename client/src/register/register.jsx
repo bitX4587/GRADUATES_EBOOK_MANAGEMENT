@@ -123,12 +123,7 @@ const AddUser = ({ onCancel, onSwitchToAdmin }) => {
             <form
               onSubmit={submitForm}
               encType="multipart/form-data"
-              className="p-4 shadow w-100 "
-              style={{
-                background: "rgba(255,255,255,0.1)",
-                backdropFilter: "blur(10px)",
-                borderRadius: "0",
-              }}
+              className="p-4 w-100 "
             >
               <div className="container-btn d-flex justify-content-between mb-3">
                 <button
@@ -146,7 +141,7 @@ const AddUser = ({ onCancel, onSwitchToAdmin }) => {
                   Admin <i className="fa-solid fa-forward"></i>
                 </button>
               </div>
-              <h3 className="text-center mb-4 text-white">REGISTER USER</h3>
+              <h3 className="text-center m-4 text-white">REGISTER USER</h3>
 
               <div className="row g-3 text-white">
                 <div className="col-md-6">
@@ -320,12 +315,7 @@ const AddUser = ({ onCancel, onSwitchToAdmin }) => {
                   </select>
                 </div>
 
-                <div
-                  className="d-grid"
-                  style={{
-                    marginTop: "23px",
-                  }}
-                >
+                <div className="d-grid">
                   <button
                     type="submit"
                     className="btn btn-primary"

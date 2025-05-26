@@ -34,12 +34,14 @@ const Homepage = () => {
       ></div>
 
       <div className="container d-flex justify-content-center align-items-center h-100 position-relative z-2">
-        <div className="glass-card row w-100" style={{ minHeight: "600px" }}>
-          {/* Left Side */}
+        <div
+          className="glass-card row w-100 m-4"
+          style={{ minHeight: "600px" }}
+        >
           {/* Left Side */}
           <div
             className={`${
-              showRegister ? "d-none d-lg-flex" : "d-flex d-lg-flex d-none"
+              showRegister ? "d-none d-xxl-flex" : "d-flex d-xxl-flex d-none"
             } col-12 col-lg-6 flex-column align-items-center justify-content-center p-0`}
           >
             <HeroSlider images={heroImages} onSlideChange={setBgIndex} />
@@ -49,8 +51,8 @@ const Homepage = () => {
           <div
             className={
               showRegister
-                ? "col-12 col-md-12 col-lg-6 d-flex align-items-center justify-content-center p-0"
-                : "col-12 col-md-12 col-lg-6 d-flex align-items-center justify-content-center p-0"
+                ? "col-12 col-md-12 col-xxl-6 d-flex align-items-center justify-content-center"
+                : "col-12 col-md-12 col-xxl-6 d-flex align-items-center justify-content-center"
             }
           >
             {showRegister ? (
@@ -74,7 +76,7 @@ const Homepage = () => {
                 />
               </div>
             ) : (
-              <div className="text-start w-100 p-5 text-black">
+              <div className="text-start w-100 p-5 text-black ">
                 <p
                   className="text-uppercase fw-semibold fs-5"
                   style={{ letterSpacing: "1px" }}

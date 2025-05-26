@@ -47,7 +47,11 @@ body.dark-mode .navbar-cont {
 
 body.dark-mode,
 body.dark-mode .icon-btn-burger,
-body.dark-mode .someInfo {
+body.dark-mode .someInfo,
+body.dark-mode .updates-section h2,
+body.dark-mode .message-admin h2,
+body.dark-mode .about-codex h2,
+body.dark-mode .update-card p {
   color: white;
 }
 

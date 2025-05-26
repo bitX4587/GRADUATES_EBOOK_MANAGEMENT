@@ -131,62 +131,67 @@ function ChatRoom() {
 
   const isOnline = onlineUsers.includes(targetId);
   return (
-    <div className="chat-container mt-4 mb-4">
-      <div className="chat-header">
-        <span className={`status-dot ${isOnline ? "online" : "offline"}`} />
-        <h2>Chat with {targetProfile.name || targetId}</h2>
-        <Link to="/dashboard" className="back-btn text-decoration-none">
-          Back
-        </Link>
-      </div>
+    <div className="d-flex w-100 justify-content-center">
+      <div className="chat-container m-4">
+        <div className="chat-header">
+          <span className={`status-dot ${isOnline ? "online" : "offline"}`} />
+          <h2>Chat with {targetProfile.name || targetId}</h2>
+          <Link to="/dashboard" className="back-btn text-decoration-none">
+            Back
+          </Link>
+        </div>
 
-      <div id="chat-box" className="chat-box">
-        {messages.map((msg, idx) => {
-          const fromMe = msg.from === userId;
-          const profile = fromMe ? userProfile : targetProfile;
-          const time = new Date(msg.timestamp).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          });
+        <div id="chat-box" className="chat-box">
+          {messages.map((msg, idx) => {
+            const fromMe = msg.from === userId;
+            const profile = fromMe ? userProfile : targetProfile;
+            const time = new Date(msg.timestamp).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
 
-          return (
-            <div key={idx} className={`chat-message ${fromMe ? "me" : "them"}`}>
-              {profile.image ? (
-                <img
-                  src={profile.image?.url || "/default-profile.png"}
-                  alt={profile.name}
-                  className="avatar-img"
-                />
-              ) : (
-                <div className="avatar-fallback">
-                  {profile.name?.slice(0, 2).toUpperCase()}
+            return (
+              <div
+                key={idx}
+                className={`chat-message ${fromMe ? "me" : "them"}`}
+              >
+                {profile.image ? (
+                  <img
+                    src={profile.image?.url || "/default-profile.png"}
+                    alt={profile.name}
+                    className="avatar-img"
+                  />
+                ) : (
+                  <div className="avatar-fallback">
+                    {profile.name?.slice(0, 2).toUpperCase()}
+                  </div>
+                )}
+                <div className="message-content">
+                  <div className="text">{msg.message}</div>
+                  <div className="text-black timestamp">{time}</div>
                 </div>
-              )}
-              <div className="message-content">
-                <div className="text">{msg.message}</div>
-                <div className="text-black timestamp">{time}</div>
               </div>
+            );
+          })}
+
+          {typing && (
+            <div className="typing-indicator">
+              <span>{targetProfile.name || targetId} is typing...</span>
             </div>
-          );
-        })}
+          )}
 
-        {typing && (
-          <div className="typing-indicator">
-            <span>{targetProfile.name || targetId} is typing...</span>
-          </div>
-        )}
+          <div ref={bottomRef} />
+        </div>
 
-        <div ref={bottomRef} />
-      </div>
-
-      <div className="chat-input">
-        <input
-          value={input}
-          onChange={handleInputChange}
-          placeholder="Type a message"
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-        />
-        <button onClick={sendMessage}>Send</button>
+        <div className="chat-input">
+          <input
+            value={input}
+            onChange={handleInputChange}
+            placeholder="Type a message"
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          />
+          <button onClick={sendMessage}>Send</button>
+        </div>
       </div>
     </div>
   );

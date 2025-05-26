@@ -7,6 +7,11 @@ const ProfileAdmin = () => {
   const [admin, setAdmin] = useState(null);
   const [activeTab, setActiveTab] = useState("personal");
 
+  const schoolMap = {
+    0: "Northwest Samar State University",
+    1: "Samar State University",
+  };
+
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
@@ -60,21 +65,18 @@ const ProfileAdmin = () => {
   if (!admin) return <div>Loading...</div>;
 
   return (
-    <div className="admin-home-cont">
-      <div className="admin-profile-cont">
-        {/* LEFT SIDE - IMAGE & BASIC INFO */}
-        <div className="admin-profile-cont-left">
-          <div className="admin-profile-cont-image position-relative d-inline-block">
+    <div className="home-cont">
+      <div className="profile-cont generalDIV">
+        {/* Left Section: Image + Basic Info */}
+        <div className="profile-cont-left">
+          <div className="profile-cont-image position-relative d-inline-block">
             {admin.image ? (
               <>
                 <img
-                  className="admin-profile-image rounded-circle shadow border border-secondary"
+                  className="profile-image rounded-circle shadow border border-secondary"
                   src={admin.image?.url || "/default-profile.png"}
                   alt={admin.name}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "/default-avatar.png"; // fallback image
-                  }}
+                  onError={() => console.log("Image is not showing")}
                   style={{
                     width: "150px",
                     height: "150px",
@@ -86,18 +88,16 @@ const ProfileAdmin = () => {
                 <input
                   type="file"
                   accept="image/*"
-                  id="adminImageUpload"
+                  id="imageUpload"
                   style={{ display: "none" }}
                   onChange={handleImageUpload}
                 />
 
-                {/* Camera icon button overlayed */}
+                {/* Camera icon button overlay */}
                 <button
                   className="btn btn-light position-absolute camera-btn"
-                  onClick={() =>
-                    document.getElementById("adminImageUpload").click()
-                  }
-                  aria-label="Upload Admin Image"
+                  onClick={() => document.getElementById("imageUpload").click()}
+                  aria-label="Upload Image"
                   style={{ bottom: "0", right: "0" }}
                 >
                   <i className="fa-solid fa-camera"></i>
@@ -107,88 +107,135 @@ const ProfileAdmin = () => {
               "No Image"
             )}
           </div>
-          <div className="admin-profile-cont-info">
-            <div className="admin-profile-name">{admin.name} (Admin)</div>
-            <div>
-              <i className="fa-solid fa-envelope"></i> {admin.email}
-            </div>
+
+          <div className="profile-cont-info">
+            <div className="profile-name">{admin.name}</div>
             <div>
               <i className="fa-solid fa-phone"></i> {admin.mobile}
             </div>
+            <div>
+              <i className="fa-solid fa-graduation-cap"></i>
+              {schoolMap[admin.SchoolID] || "Unknown University"}
+            </div>
+            <div>
+              <i className="fa-solid fa-envelope-circle-check"></i>{" "}
+              {admin.email}
+            </div>
+            <div>
+              <i className="fa-solid fa-location-dot"></i> {admin.address}
+            </div>
           </div>
         </div>
 
-        {/* RIGHT SIDE - TABS */}
-        <div className="admin-profile-cont-right">
-          <div className="admin-profile-cont-right-head">
-            {["personal", "manage", "security"].map((tab) => (
-              <div
-                key={tab}
-                className={`admin-profile-heads ${
-                  activeTab === tab ? "active" : ""
-                }`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab === "personal"
-                  ? "Personal Detail"
-                  : tab === "manage"
-                  ? "Manage Users"
-                  : "Security & Password"}
-              </div>
-            ))}
+        {/* Right Section: Tabs + Content */}
+        <div className="profile-cont-right">
+          <div className="profile-cont-right-head">
+            <div
+              className={`profile-heads ${
+                activeTab === "personal" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("personal")}
+            >
+              Personal Detail
+            </div>
+            <div
+              className={`profile-heads ${
+                activeTab === "backup" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("backup")}
+            >
+              Admin Dashboard
+            </div>
+            <div
+              className={`profile-heads ${
+                activeTab === "security" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("security")}
+            >
+              Security and Password
+            </div>
           </div>
 
-          {/* RIGHT-MID SECTION */}
-          <div className="admin-profile-cont-middle">
-            {activeTab === "personal" && (
-              <div className="admin-profile-info-bottom">
-                <h3>Personal Details</h3>
-                <ul>
-                  <li>Email: {admin.email}</li>
-                  <li>Username: {admin.name}</li>
-                  <li>Mobile #: {admin.mobile}</li>
-                </ul>
-                <Link
-                  to={"/updateAdmin"}
-                  className="btn btn-info text-decoration-none"
-                >
-                  <i className="fa-solid fa-pen-to-square"></i> Edit Profile
-                </Link>
-              </div>
-            )}
+          {/* Tab Content */}
+          {activeTab === "personal" && (
+            <div className="profile-info-bottom">
+              <h3 className="text-uppercase fw-bold mb-3">
+                Personal Achievements
+              </h3>
+              {admin.achievements && admin.achievements.length > 0 ? (
+                <>
+                  {admin.achievements.map((ach, index) => (
+                    <p key={index} className="gradient-text">
+                      {ach}
+                    </p>
+                  ))}
+                </>
+              ) : (
+                <p>No achievements added yet.</p>
+              )}
+            </div>
+          )}
 
-            {activeTab === "manage" && (
-              <div className="profile-info-bottom">
-                <h3>Admin Controls</h3>
-                <Link
-                  to="/dashboardAdmin"
-                  className="btn btn-dark text-decoration-none"
-                >
-                  Manage All Users
-                </Link>
-              </div>
-            )}
+          {activeTab === "backup" && (
+            <div className="profile-info-bottom">
+              <h3>Manage Users</h3>
+              <Link to="/dashboardAdmin">Inspect Users</Link>
+            </div>
+          )}
 
-            {activeTab === "security" && (
-              <div className="profile-info-bottom">
-                <h3>Security Options</h3>
-                <Link
-                  to="/resetpasswordAdmin"
-                  className="btn btn-warning text-decoration-none"
-                >
-                  Reset Password
-                </Link>
-                <br />
-                <Link
-                  to="/logout"
-                  className="btn btn-danger mt-2 text-decoration-none"
-                >
-                  Logout
-                </Link>
-              </div>
-            )}
-          </div>
+          {activeTab === "security" && (
+            <div className="profile-info-bottom">
+              <h3>Security and Password</h3>
+              <Link to="/resetpasswordAdmin">Forget Password</Link>
+              <Link to="/logout">Logout</Link>
+            </div>
+          )}
         </div>
+
+        {/* Middle Section: Personal Details Card, shows only if Personal tab active */}
+        {activeTab === "personal" && (
+          <div className="profile-cont-middle">
+            <div className="card mt-3">
+              <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 className="text-uppercase fw-bold mb-0">
+                  Personal Details
+                </h5>
+                <Link
+                  to="/updateAdmin"
+                  className="btn btn-light btn-sm text-decoration-none"
+                >
+                  <i className="fa-solid fa-pen-to-square"></i> Edit
+                </Link>
+              </div>
+              <div className="card-body">
+                <div className="row">
+                  {[
+                    { label: "Address", value: admin.address },
+                    {
+                      label: "Birthday",
+                      value: admin.birthday
+                        ? new Date(admin.birthday).toLocaleDateString()
+                        : "N/A",
+                    },
+                    { label: "Civil Status", value: admin.civil_status },
+                    { label: "Birthplace", value: admin.birthplace },
+                    { label: "Nationality", value: admin.nationality },
+                    { label: "Religion", value: admin.religion },
+                  ].map((item, index) => (
+                    <div key={index} className="col-lg-4 col-md-6 col-12 mb-3">
+                      <div className="border p-3 rounded bg-light h-100">
+                        <span className="fw-bold text-uppercase">
+                          {item.label}:
+                        </span>{" "}
+                        {item.value || "N/A"}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

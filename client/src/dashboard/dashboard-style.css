@@ -27,7 +27,6 @@ textarea.form-control {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -109,13 +108,13 @@ textarea.form-control {
   }
 }
 
-@media (max-width: 312px) {
+@media (max-width: 330px) {
   .generalDIV {
     margin-top: 150px;
   }
 }
 
-@media (max-width: 291px) {
+@media (max-width: 310px) {
   .generalDIV {
     margin-top: 170px;
   }

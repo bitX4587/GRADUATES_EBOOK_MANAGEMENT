@@ -49,6 +49,14 @@ function App() {
           element: <PrivateRoute element={<Home />} />,
         },
         {
+          path: "/dashboardAdmin",
+          element: <PrivateRoute element={<DashboardAdmin />} />,
+        },
+        {
+          path: "/profileAdmin",
+          element: <PrivateRoute element={<ProfileAdmin />} />,
+        },
+        {
           path: "/newsfeed",
           element: <PrivateRoute element={<Newsfeed />} />,
         },
@@ -93,14 +101,6 @@ function App() {
     {
       path: "/chatroom/:id",
       element: <PrivateRoute element={<ChatRoom />} />,
-    },
-    {
-      path: "/dashboardAdmin",
-      element: <PrivateRoute element={<DashboardAdmin />} />,
-    },
-    {
-      path: "/profileAdmin",
-      element: <PrivateRoute element={<ProfileAdmin />} />,
     },
     {
       path: "/update",

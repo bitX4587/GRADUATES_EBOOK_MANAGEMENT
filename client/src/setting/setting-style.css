@@ -7,10 +7,8 @@
   max-width: 1200px;
   margin: auto;
   padding: 2rem;
-  color: #333;
   font-family: "Segoe UI", sans-serif;
   border-radius: 20px;
-  background: linear-gradient(to right, #f0f4ff, #e6faff);
 }
 
 .hero {
@@ -41,7 +39,7 @@ section {
 .about-codex h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
-  color: #2d3436;
+  color: black;
 }
 
 .updates-grid {
@@ -70,7 +68,7 @@ section {
 
 .update-card p {
   margin-bottom: 0.5rem;
-  color: #555;
+  color: black;
 }
 
 .message-admin form {

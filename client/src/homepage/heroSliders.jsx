@@ -18,7 +18,7 @@ const HeroSlider = ({ images, onSlideChange }) => {
   };
 
   return (
-    <Slider {...settings} className="w-100 h-100">
+    <Slider {...settings} className="w-100">
       {images.map((img, idx) => (
         <div
           key={idx}

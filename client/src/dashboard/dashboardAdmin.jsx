@@ -133,159 +133,169 @@ const DashboardAdmin = () => {
   };
 
   return (
-    <div className="container py-4">
-      <h3 className="mb-4">Admin Dashboard</h3>
-      {users.length === 0 ? (
-        <div className="alert text-center">
-          <h1 className="someInfo">No Users Found.</h1>
-        </div>
-      ) : (
-        <div className="list-group">
-          {users.map((user, idx) => (
-            <div
-              key={user._id}
-              className="list-group-item list-group-item-action flex-column align-items-start mb-3 shadow-sm"
-            >
-              <div className="d-flex justify-content-between w-100">
-                <div>
-                  <h5 className="mb-1">
-                    {idx + 1}. {user.name}
-                  </h5>
+    <div className="container py-4 ">
+      <div className="generalDIV">
+        <h3 className="mb-4 text-center">Admin Dashboard</h3>
+        {users.length === 0 ? (
+          <div className="alert text-center">
+            <h1 className="someInfo">No Users Found.</h1>
+          </div>
+        ) : (
+          <div className="list-group">
+            {users.map((user, idx) => (
+              <div
+                key={user._id}
+                className="list-group-item list-group-item-action flex-column align-items-start mb-3 shadow-sm"
+              >
+                <div className="d-flex justify-content-between w-100">
+                  <div>
+                    <h5 className="mb-1">
+                      {idx + 1}. {user.name}
+                    </h5>
+                  </div>
+                  <button
+                    className="btn btn-link text-primary p-0 text-decoration-none"
+                    onClick={() => toggleDetails(user._id)}
+                  >
+                    {expandedUserId === user._id ? "Hide" : "View"} Details
+                  </button>
                 </div>
-                <button
-                  className="btn btn-link text-primary p-0 text-decoration-none"
-                  onClick={() => toggleDetails(user._id)}
-                >
-                  {expandedUserId === user._id ? "Hide" : "View"} Details
-                </button>
-              </div>
 
-              {expandedUserId === user._id && (
-                <div className="mt-3">
-                  <div className="mb-2">
+                {expandedUserId === user._id && (
+                  <div className="mt-3">
                     <strong>Achievements:</strong>
-                    <div className="d-flex flex-wrap gap-2 mt-2">
-                      {(user.achievements || []).map((ach, i) => (
-                        <span key={i} className="badge bg-success">
-                          {ach}
-                        </span>
-                      ))}
+                    <div className="d-flex justify-content-between flex-wrap align-items-start gap-3">
+                      {/* Achievements */}
+                      <div className="flex-grow-1">
+                        <div className="d-flex flex-wrap gap-2 mt-2">
+                          {(user.achievements || []).map((ach, i) => (
+                            <span key={i} className="badge bg-success">
+                              {ach}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Buttons */}
+                      <div className="d-flex flex-row gap-2 align-items-end">
+                        <button
+                          className="btn btn-primary btn-sm"
+                          onClick={() => setSelectedUser(user)}
+                          data-bs-toggle="modal"
+                          data-bs-target="#achievementModal"
+                        >
+                          Manage Achievements
+                        </button>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => promptDeleteUser(user._id)}
+                        >
+                          <i className="fa fa-trash"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div className="d-flex gap-2">
-                    <button
-                      className="btn btn-primary btn-sm"
-                      onClick={() => setSelectedUser(user)}
-                      data-bs-toggle="modal"
-                      data-bs-target="#achievementModal"
-                    >
-                      Manage Achievements
-                    </button>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => promptDeleteUser(user._id)}
-                    >
-                      <i className="fa fa-trash"></i>
-                    </button>
-                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Achievement Modal */}
+        <div
+          className="modal fade"
+          id="achievementModal"
+          tabIndex="-1"
+          aria-labelledby="achievementModalLabel"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <div className="text-center">
+                  <h5 className="modal-title" id="achievementModalLabel">
+                    Manage Achievements
+                  </h5>
+                  <h5>{selectedUser?.name}</h5>
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Achievement Modal */}
-      <div
-        className="modal fade"
-        id="achievementModal"
-        tabIndex="-1"
-        aria-labelledby="achievementModalLabel"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="achievementModalLabel">
-                Manage Achievements - {selectedUser?.name}
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                onClick={() => setSelectedUser(null)}
-              ></button>
-            </div>
-            <div className="modal-body">
-              <ul className="list-group mb-3">
-                {selectedUser?.achievements?.map((ach, index) => (
-                  <li
-                    className="list-group-item d-flex justify-content-between align-items-center"
-                    key={index}
-                  >
-                    {ach}
-                    <button
-                      className="btn btn-sm btn-outline-danger"
-                      onClick={() => handleDeleteAchievement(index)}
-                    >
-                      Delete
-                    </button>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="New achievement"
-                  value={achievementInput}
-                  onChange={(e) => setAchievementInput(e.target.value)}
-                />
                 <button
-                  className="btn btn-success"
-                  onClick={handleAddAchievement}
-                >
-                  Add
-                </button>
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  onClick={() => setSelectedUser(null)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <ul className="list-group mb-3">
+                  {selectedUser?.achievements?.map((ach, index) => (
+                    <li
+                      className="list-group-item d-flex justify-content-between align-items-center"
+                      key={index}
+                    >
+                      {ach}
+                      <button
+                        className="btn btn-sm btn-outline-danger"
+                        onClick={() => handleDeleteAchievement(index)}
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="New achievement"
+                    value={achievementInput}
+                    onChange={(e) => setAchievementInput(e.target.value)}
+                  />
+                  <button
+                    className="btn btn-success"
+                    onClick={handleAddAchievement}
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {showDeleteModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>⚠️ Are You Sure?</h3>
-            <p>This will permanently delete the user and all related data.</p>
-            <div className="modal-buttons">
-              <button
-                className="modal-button confirm"
-                onClick={confirmDeleteUser}
-                style={{ backgroundColor: "red" }}
-              >
-                Yes, delete
-              </button>
-              <button
-                className="modal-button cancel"
-                onClick={() => setShowDeleteModal(false)}
-              >
-                Cancel
-              </button>
+        {showDeleteModal && (
+          <div className="modal-overlay">
+            <div className="modal-content text-black">
+              <h3>⚠️ Are You Sure?</h3>
+              <p>This will permanently delete the user and all related data.</p>
+              <div className="modal-buttons">
+                <button
+                  className="modal-button confirm"
+                  onClick={confirmDeleteUser}
+                  style={{ backgroundColor: "red" }}
+                >
+                  Yes, delete
+                </button>
+                <button
+                  className="modal-button cancel"
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Floating Button */}
-      <Link
-        to="/profileAdmin"
-        className="btn btn-primary position-fixed text-decoration-none"
-        style={{ bottom: "20px", right: "20px", zIndex: 1000 }}
-        aria-label="Go to Profile Admin"
-      >
-        Go To Profile Admin <i className="fas fa-arrow-right ms-2"></i>
-      </Link>
+        {/* Floating Button */}
+        <Link
+          to="/profileAdmin"
+          className="btn btn-primary position-fixed text-decoration-none"
+          style={{ bottom: "20px", right: "20px", zIndex: 1000 }}
+          aria-label="Go to Profile Admin"
+        >
+          Go To Profile Admin <i className="fas fa-arrow-right ms-2"></i>
+        </Link>
+      </div>
     </div>
   );
 };

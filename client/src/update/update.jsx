@@ -98,195 +98,197 @@ const UpdateUser = () => {
   };
 
   return (
-    <div class="container mt-5 mb-5 pt-5 pb-5">
-      <Link
-        to="/profile"
-        className="btn btn-secondary mb-3 text-decoration-none"
-      >
-        <i className="fa-solid fa-backward"></i> Back
-      </Link>
-      <h3 className="mb-4">Update User</h3>
-      <form
-        className="row g-3"
-        encType="multipart/form-data"
-        onSubmit={submitForm}
-      >
-        {/* Name */}
-        <div className="col-md-6">
-          <label htmlFor="name" className="form-label">
-            Name:
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={user.name}
-            onChange={inputHandler}
-            className="form-control"
-            placeholder="Enter Your Name"
-            required
-          />
-        </div>
+    <div className="d-flex flex-column align-items-center">
+      <div className="container pt-5 pb-5 m-4 bg-white text-black rounded w-auto">
+        <Link
+          to="/profile"
+          className="btn btn-secondary mb-3 text-decoration-none"
+        >
+          <i className="fa-solid fa-backward"></i> Back
+        </Link>
+        <h3 className="mb-4 text-center">Update User</h3>
+        <form
+          className="row g-3"
+          encType="multipart/form-data"
+          onSubmit={submitForm}
+        >
+          {/* Name */}
+          <div className="col-md-6">
+            <label htmlFor="name" className="form-label">
+              Name:
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={user.name}
+              onChange={inputHandler}
+              className="form-control"
+              placeholder="Enter Your Name"
+              required
+            />
+          </div>
 
-        {/* Email */}
-        <div className="col-md-6">
-          <label htmlFor="email" className="form-label">
-            Email:
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={user.email}
-            onChange={inputHandler}
-            className="form-control"
-            placeholder="Enter Your Email"
-            required
-          />
-        </div>
+          {/* Email */}
+          <div className="col-md-6">
+            <label htmlFor="email" className="form-label">
+              Email:
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={user.email}
+              onChange={inputHandler}
+              className="form-control"
+              placeholder="Enter Your Email"
+              required
+            />
+          </div>
 
-        {/* Mobile */}
-        <div className="col-md-6">
-          <label htmlFor="mobile" className="form-label">
-            Mobile:
-          </label>
-          <input
-            type="text"
-            id="mobile"
-            name="mobile"
-            value={user.mobile}
-            onChange={inputHandler}
-            className="form-control"
-            placeholder="Enter Your Mobile"
-            required
-          />
-        </div>
+          {/* Mobile */}
+          <div className="col-md-6">
+            <label htmlFor="mobile" className="form-label">
+              Mobile:
+            </label>
+            <input
+              type="text"
+              id="mobile"
+              name="mobile"
+              value={user.mobile}
+              onChange={inputHandler}
+              className="form-control"
+              placeholder="Enter Your Mobile"
+              required
+            />
+          </div>
 
-        {/* Address */}
-        <div className="col-md-6">
-          <label htmlFor="address" className="form-label">
-            Address:
-          </label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            value={user.address}
-            onChange={inputHandler}
-            className="form-control"
-            placeholder="Enter Your Address"
-          />
-        </div>
+          {/* Address */}
+          <div className="col-md-6">
+            <label htmlFor="address" className="form-label">
+              Address:
+            </label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              value={user.address}
+              onChange={inputHandler}
+              className="form-control"
+              placeholder="Enter Your Address"
+            />
+          </div>
 
-        {/* Birthday */}
-        <div className="col-md-6">
-          <label htmlFor="birthday" className="form-label">
-            Birthday:
-          </label>
-          <input
-            type="date"
-            id="birthday"
-            name="birthday"
-            value={user.birthday}
-            onChange={inputHandler}
-            className="form-control"
-            required
-          />
-        </div>
+          {/* Birthday */}
+          <div className="col-md-6">
+            <label htmlFor="birthday" className="form-label">
+              Birthday:
+            </label>
+            <input
+              type="date"
+              id="birthday"
+              name="birthday"
+              value={user.birthday}
+              onChange={inputHandler}
+              className="form-control"
+              required
+            />
+          </div>
 
-        {/* Civil Status */}
-        <div className="col-md-6">
-          <label htmlFor="civil_status" className="form-label">
-            Civil Status:
-          </label>
-          <select
-            id="civil_status"
-            name="civil_status"
-            value={user.civil_status}
-            onChange={inputHandler}
-            className="form-select"
-          >
-            <option value="Single">Single</option>
-            <option value="Married">Married</option>
-            <option value="Widowed">Widowed</option>
-            <option value="Divorced">Divorced</option>
-            <option value="Separated">Separated</option>
-          </select>
-        </div>
+          {/* Civil Status */}
+          <div className="col-md-6">
+            <label htmlFor="civil_status" className="form-label">
+              Civil Status:
+            </label>
+            <select
+              id="civil_status"
+              name="civil_status"
+              value={user.civil_status}
+              onChange={inputHandler}
+              className="form-select"
+            >
+              <option value="Single">Single</option>
+              <option value="Married">Married</option>
+              <option value="Widowed">Widowed</option>
+              <option value="Divorced">Divorced</option>
+              <option value="Separated">Separated</option>
+            </select>
+          </div>
 
-        {/* Birthplace */}
-        <div className="col-md-6">
-          <label htmlFor="birthplace" className="form-label">
-            Birthplace:
-          </label>
-          <input
-            type="text"
-            id="birthplace"
-            name="birthplace"
-            value={user.birthplace}
-            onChange={inputHandler}
-            className="form-control"
-            placeholder="Enter Your Birthplace"
-          />
-        </div>
+          {/* Birthplace */}
+          <div className="col-md-6">
+            <label htmlFor="birthplace" className="form-label">
+              Birthplace:
+            </label>
+            <input
+              type="text"
+              id="birthplace"
+              name="birthplace"
+              value={user.birthplace}
+              onChange={inputHandler}
+              className="form-control"
+              placeholder="Enter Your Birthplace"
+            />
+          </div>
 
-        {/* Nationality */}
-        <div className="col-md-6">
-          <label htmlFor="nationality" className="form-label">
-            Nationality:
-          </label>
-          <input
-            type="text"
-            id="nationality"
-            name="nationality"
-            value={user.nationality}
-            onChange={inputHandler}
-            className="form-control"
-            placeholder="Enter Your Nationality"
-          />
-        </div>
+          {/* Nationality */}
+          <div className="col-md-6">
+            <label htmlFor="nationality" className="form-label">
+              Nationality:
+            </label>
+            <input
+              type="text"
+              id="nationality"
+              name="nationality"
+              value={user.nationality}
+              onChange={inputHandler}
+              className="form-control"
+              placeholder="Enter Your Nationality"
+            />
+          </div>
 
-        {/* Religion */}
-        <div className="col-md-6">
-          <label htmlFor="religion" className="form-label">
-            Religion:
-          </label>
-          <input
-            type="text"
-            id="religion"
-            name="religion"
-            value={user.religion}
-            onChange={inputHandler}
-            className="form-control"
-            placeholder="Enter Your Religion"
-          />
-        </div>
+          {/* Religion */}
+          <div className="col-md-6">
+            <label htmlFor="religion" className="form-label">
+              Religion:
+            </label>
+            <input
+              type="text"
+              id="religion"
+              name="religion"
+              value={user.religion}
+              onChange={inputHandler}
+              className="form-control"
+              placeholder="Enter Your Religion"
+            />
+          </div>
 
-        {/* Image Upload */}
-        <div className="col-md-6">
-          <label htmlFor="image" className="form-label">
-            Image:
-          </label>
-          <input
-            type="file"
-            id="image"
-            name="image"
-            onChange={fileHandler}
-            className="form-control"
-          />
-        </div>
+          {/* Image Upload */}
+          <div className="col-md-6">
+            <label htmlFor="image" className="form-label">
+              Image:
+            </label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              onChange={fileHandler}
+              className="form-control"
+            />
+          </div>
 
-        {/* Submit Button */}
-        <div className="col-12 text-end">
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Submitting..." : "Submit"}
-          </button>
-        </div>
-      </form>
+          {/* Submit Button */}
+          <div className="col-12 text-end">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

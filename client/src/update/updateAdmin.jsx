@@ -77,96 +77,98 @@ const UpdateAdmin = () => {
   };
 
   return (
-    <div className="container mt-5 mb-5 pt-5 pb-5">
-      <Link
-        to="/profileAdmin"
-        type="button"
-        className="btn btn-secondary mb-3 text-decoration-none"
-      >
-        <i className="fa-solid fa-backward"></i> Back
-      </Link>
+    <div className="d-flex flex-column align-items-center">
+      <div className="container pt-5 pb-5 m-4 bg-white text-black rounded w-auto">
+        <Link
+          to="/profileAdmin"
+          type="button"
+          className="btn btn-secondary mb-3 text-decoration-none"
+        >
+          <i className="fa-solid fa-backward"></i> Back
+        </Link>
 
-      <h3 className="mb-4">Update Admin</h3>
+        <h3 className="mb-4 text-center">Update Admin</h3>
 
-      <form
-        encType="multipart/form-data"
-        onSubmit={submitForm}
-        className="needs-validation"
-        noValidate
-      >
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">
-            Name:
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={admin.name}
-            onChange={inputHandler}
-            placeholder="Enter Your Name"
-            autoComplete="off"
-            required
-            className="form-control"
-          />
-        </div>
+        <form
+          encType="multipart/form-data"
+          onSubmit={submitForm}
+          className="needs-validation"
+          noValidate
+        >
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Name:
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={admin.name}
+              onChange={inputHandler}
+              placeholder="Enter Your Name"
+              autoComplete="off"
+              required
+              className="form-control"
+            />
+          </div>
 
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email:
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={admin.email}
-            onChange={inputHandler}
-            placeholder="Enter Your Email"
-            autoComplete="off"
-            required
-            className="form-control"
-          />
-        </div>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Email:
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={admin.email}
+              onChange={inputHandler}
+              placeholder="Enter Your Email"
+              autoComplete="off"
+              required
+              className="form-control"
+            />
+          </div>
 
-        <div className="mb-3">
-          <label htmlFor="mobile" className="form-label">
-            Mobile:
-          </label>
-          <input
-            type="text"
-            id="mobile"
-            name="mobile"
-            value={admin.mobile}
-            onChange={inputHandler}
-            placeholder="Enter Your Mobile"
-            autoComplete="off"
-            required
-            className="form-control"
-          />
-        </div>
+          <div className="mb-3">
+            <label htmlFor="mobile" className="form-label">
+              Mobile:
+            </label>
+            <input
+              type="text"
+              id="mobile"
+              name="mobile"
+              value={admin.mobile}
+              onChange={inputHandler}
+              placeholder="Enter Your Mobile"
+              autoComplete="off"
+              required
+              className="form-control"
+            />
+          </div>
 
-        <div className="mb-3">
-          <label htmlFor="image" className="form-label">
-            New Image:
-          </label>
-          <input
-            type="file"
-            id="image"
-            name="image"
-            onChange={fileHandler}
-            className="form-control"
-          />
-        </div>
-        <div className="col-12 text-end">
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Submitting..." : "Submit"}
-          </button>
-        </div>
-      </form>
+          <div className="mb-3">
+            <label htmlFor="image" className="form-label">
+              New Image:
+            </label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              onChange={fileHandler}
+              className="form-control"
+            />
+          </div>
+          <div className="col-12 text-end">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
