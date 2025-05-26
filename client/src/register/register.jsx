@@ -141,7 +141,7 @@ const AddUser = ({ onCancel, onSwitchToAdmin }) => {
                   Admin <i className="fa-solid fa-forward"></i>
                 </button>
               </div>
-              <h3 className="text-center m-4 text-white">REGISTER USER</h3>
+              <h3 className="text-center m-3 text-white">REGISTER USER</h3>
 
               <div className="row g-3 text-white">
                 <div className="col-md-6">

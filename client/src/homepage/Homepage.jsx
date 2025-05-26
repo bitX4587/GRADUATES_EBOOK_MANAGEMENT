@@ -76,7 +76,7 @@ const Homepage = () => {
                 />
               </div>
             ) : (
-              <div className="text-start w-100 p-5 text-black ">
+              <div className="text-start w-100 p-4 text-black ">
                 <p
                   className="text-uppercase fw-semibold fs-5"
                   style={{ letterSpacing: "1px" }}
