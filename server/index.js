@@ -15,8 +15,7 @@ import { createAdapter } from "@socket.io/redis-adapter";
 dotenv.config();
 
 const app = express();
-app.use(express.json());
-app.use(cookieParser());
+
 app.use(
   cors({
     origin: [
@@ -27,6 +26,8 @@ app.use(
   })
 );
 
+app.use(express.json());
+app.use(cookieParser());
 // API routes
 app.use("/api", route);
 
