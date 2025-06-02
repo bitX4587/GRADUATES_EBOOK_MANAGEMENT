@@ -40,7 +40,8 @@ const ProfileAdmin = () => {
 
     try {
       await axios.put(
-        `${process.env.REACT_APP_API_URL}/api/update/adminID, formData`,
+        `${process.env.REACT_APP_API_URL}/api/update/adminID`,
+        formData,
         {
           withCredentials: true,
         }
@@ -58,6 +59,7 @@ const ProfileAdmin = () => {
 
       console.log("Image updated successfully!");
     } catch (error) {
+      console.error("Image upload failed", error.response.data.message);
       console.error("Image upload failed", error.message);
     }
   };

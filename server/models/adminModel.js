@@ -53,6 +53,32 @@ const adminSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  // New fields for PDS
+  address: {
+    type: String,
+    default: "",
+  },
+  birthday: {
+    type: Date,
+    default: null,
+  },
+  civil_status: {
+    type: String,
+    enum: ["Single", "Married", "Widowed", "Divorced", "Separated"],
+    default: "Single",
+  },
+  birthplace: {
+    type: String,
+    default: "",
+  },
+  nationality: {
+    type: String,
+    default: "",
+  },
+  religion: {
+    type: String,
+    default: "",
+  },
 });
 
 export default mongoose.model("Admin", adminSchema); // EXPORT USER

@@ -32,6 +32,12 @@ export const createAdmin = async (req, res) => {
       SchoolID,
       is_admin,
       is_admin_token,
+      address,
+      birthday,
+      civil_status,
+      birthplace,
+      nationality,
+      religion,
     } = AdminArray[0];
 
     let imageData = { url: "", public_id: "" };
@@ -78,6 +84,14 @@ export const createAdmin = async (req, res) => {
       is_admin,
       is_admin_token,
       is_verified: 1,
+
+      // Optional PDS fields
+      address: address || "",
+      birthday: birthday || null,
+      civil_status: civil_status || "Single",
+      birthplace: birthplace || "",
+      nationality: nationality || "",
+      religion: religion || "",
     });
 
     const savedData = await newAdmin.save();
@@ -432,7 +446,17 @@ export const getAdminById = async (req, res) => {
 
 export const updateAdmin = async (req, res) => {
   try {
-    const { name, email, mobile } = req.body;
+    const {
+      name,
+      email,
+      mobile,
+      address,
+      birthday,
+      civil_status,
+      birthplace,
+      nationality,
+      religion,
+    } = req.body;
     const adminId = req.admin.id;
 
     const currentAdmin = await Admin.findById(adminId);
@@ -482,6 +506,12 @@ export const updateAdmin = async (req, res) => {
       email,
       mobile,
       image: imageData,
+      address,
+      birthday,
+      civil_status,
+      birthplace,
+      nationality,
+      religion,
     };
 
     const updatedAdmin = await Admin.findByIdAndUpdate(adminId, updateData, {
@@ -636,6 +666,7 @@ export const verifyAdminLogin = async (req, res) => {
     // 🔐 JWT payload
     const payload = {
       id: adminData._id,
+      SchoolID: adminData.SchoolID,
       role: "admin",
     };
 
@@ -656,6 +687,7 @@ export const verifyAdminLogin = async (req, res) => {
         id: adminData._id,
         name: adminData.name,
         email: adminData.email,
+        SchoolID: adminData.SchoolID,
       },
     });
   } catch (error) {
@@ -730,6 +762,13 @@ export const loadHomeAdmin = async (req, res) => {
         email: adminData.email,
         image: adminData.image, // ✅ this must be present
         is_admin: adminData.is_admin,
+        SchoolID: adminData.SchoolID,
+        address: adminData.address,
+        birthday: adminData.birthday,
+        civil_status: adminData.civil_status,
+        birthplace: adminData.birthplace,
+        nationality: adminData.nationality,
+        religion: adminData.religion,
       },
       message: "Welcome to the Admin dashboard!",
     });

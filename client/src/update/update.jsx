@@ -18,7 +18,6 @@ const UpdateUser = () => {
     religion: "",
     achievements: "",
   };
-  const [image, setImage] = useState(null);
 
   const [user, setUser] = useState(users);
 
@@ -27,10 +26,6 @@ const UpdateUser = () => {
   const inputHandler = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
-  };
-
-  const fileHandler = (e) => {
-    setImage(e.target.files[0]);
   };
 
   // get fetch user data
@@ -65,11 +60,6 @@ const UpdateUser = () => {
     formData.append("religion", user.religion);
     formData.append("achievements", user.achievements);
 
-    // If an image is selected, append it to FormData
-    if (image) {
-      formData.append("image", image);
-    }
-
     try {
       // Send FormData to backend
       const response = await axios.put(
@@ -85,7 +75,7 @@ const UpdateUser = () => {
       );
 
       toast.success(response.data.message, { position: "top-right" });
-      navigate("/dashboard");
+      navigate("/profile");
     } catch (error) {
       if (error.response && error.response.status === 400) {
         toast.error(error.response.data.message, { position: "top-right" });
@@ -260,20 +250,6 @@ const UpdateUser = () => {
               onChange={inputHandler}
               className="form-control"
               placeholder="Enter Your Religion"
-            />
-          </div>
-
-          {/* Image Upload */}
-          <div className="col-md-6">
-            <label htmlFor="image" className="form-label">
-              Image:
-            </label>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              onChange={fileHandler}
-              className="form-control"
             />
           </div>
 

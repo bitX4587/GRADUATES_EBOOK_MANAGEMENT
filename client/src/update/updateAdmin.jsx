@@ -10,17 +10,18 @@ const UpdateAdmin = () => {
     name: "",
     email: "",
     mobile: "",
+    address: "",
+    birthday: "",
+    civil_status: "Single", // default value
+    birthplace: "",
+    nationality: "",
+    religion: "",
   });
-  const [image, setImage] = useState(null);
   const navigate = useNavigate();
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
     setAdmin((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const fileHandler = (e) => {
-    setImage(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -29,8 +30,7 @@ const UpdateAdmin = () => {
         withCredentials: true,
       })
       .then((response) => {
-        const { name, email, mobile } = response.data.admin;
-        setAdmin({ name, email, mobile });
+        setAdmin(response.data.admin);
       })
       .catch((error) => {
         console.error(error);
@@ -46,10 +46,12 @@ const UpdateAdmin = () => {
     formData.append("name", admin.name);
     formData.append("email", admin.email);
     formData.append("mobile", admin.mobile);
-
-    if (image) {
-      formData.append("image", image);
-    }
+    formData.append("address", admin.address);
+    formData.append("birthday", admin.birthday);
+    formData.append("civil_status", admin.civil_status);
+    formData.append("birthplace", admin.birthplace);
+    formData.append("nationality", admin.nationality);
+    formData.append("religion", admin.religion);
 
     try {
       const response = await axios.put(
@@ -92,10 +94,11 @@ const UpdateAdmin = () => {
         <form
           encType="multipart/form-data"
           onSubmit={submitForm}
-          className="needs-validation"
+          className="needs-validation row g-3"
           noValidate
         >
-          <div className="mb-3">
+          {/* Name */}
+          <div className="col-md-6">
             <label htmlFor="name" className="form-label">
               Name:
             </label>
@@ -105,14 +108,14 @@ const UpdateAdmin = () => {
               name="name"
               value={admin.name}
               onChange={inputHandler}
-              placeholder="Enter Your Name"
-              autoComplete="off"
-              required
               className="form-control"
+              placeholder="Enter Your Name"
+              required
             />
           </div>
 
-          <div className="mb-3">
+          {/* Email */}
+          <div className="col-md-6">
             <label htmlFor="email" className="form-label">
               Email:
             </label>
@@ -122,14 +125,14 @@ const UpdateAdmin = () => {
               name="email"
               value={admin.email}
               onChange={inputHandler}
-              placeholder="Enter Your Email"
-              autoComplete="off"
-              required
               className="form-control"
+              placeholder="Enter Your Email"
+              required
             />
           </div>
 
-          <div className="mb-3">
+          {/* Mobile */}
+          <div className="col-md-6">
             <label htmlFor="mobile" className="form-label">
               Mobile:
             </label>
@@ -139,25 +142,113 @@ const UpdateAdmin = () => {
               name="mobile"
               value={admin.mobile}
               onChange={inputHandler}
-              placeholder="Enter Your Mobile"
-              autoComplete="off"
-              required
               className="form-control"
+              placeholder="Enter Your Mobile"
+              required
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="image" className="form-label">
-              New Image:
+          {/* Address */}
+          <div className="col-md-6">
+            <label htmlFor="address" className="form-label">
+              Address:
             </label>
             <input
-              type="file"
-              id="image"
-              name="image"
-              onChange={fileHandler}
+              type="text"
+              id="address"
+              name="address"
+              value={admin.address}
+              onChange={inputHandler}
               className="form-control"
+              placeholder="Enter Your Address"
             />
           </div>
+
+          {/* Birthday */}
+          <div className="col-md-6">
+            <label htmlFor="birthday" className="form-label">
+              Birthday:
+            </label>
+            <input
+              type="date"
+              id="birthday"
+              name="birthday"
+              value={admin.birthday}
+              onChange={inputHandler}
+              className="form-control"
+              required
+            />
+          </div>
+
+          {/* Civil Status */}
+          <div className="col-md-6">
+            <label htmlFor="civil_status" className="form-label">
+              Civil Status:
+            </label>
+            <select
+              id="civil_status"
+              name="civil_status"
+              value={admin.civil_status}
+              onChange={inputHandler}
+              className="form-select"
+            >
+              <option value="Single">Single</option>
+              <option value="Married">Married</option>
+              <option value="Widowed">Widowed</option>
+              <option value="Divorced">Divorced</option>
+              <option value="Separated">Separated</option>
+            </select>
+          </div>
+
+          {/* Birthplace */}
+          <div className="col-md-6">
+            <label htmlFor="birthplace" className="form-label">
+              Birthplace:
+            </label>
+            <input
+              type="text"
+              id="birthplace"
+              name="birthplace"
+              value={admin.birthplace}
+              onChange={inputHandler}
+              className="form-control"
+              placeholder="Enter Your Birthplace"
+            />
+          </div>
+
+          {/* Nationality */}
+          <div className="col-md-6">
+            <label htmlFor="nationality" className="form-label">
+              Nationality:
+            </label>
+            <input
+              type="text"
+              id="nationality"
+              name="nationality"
+              value={admin.nationality}
+              onChange={inputHandler}
+              className="form-control"
+              placeholder="Enter Your Nationality"
+            />
+          </div>
+
+          {/* Religion */}
+          <div className="col-md-6">
+            <label htmlFor="religion" className="form-label">
+              Religion:
+            </label>
+            <input
+              type="text"
+              id="religion"
+              name="religion"
+              value={admin.religion}
+              onChange={inputHandler}
+              className="form-control"
+              placeholder="Enter Your Religion"
+            />
+          </div>
+
+          {/* Submit Button */}
           <div className="col-12 text-end">
             <button
               type="submit"
